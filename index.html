@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radio Streaming - Reproductor Moderno</title>
+    <title>Radio Streaming - Plantilla Profesional</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
             --primary: #6c2bd9;
+            --primary-dark: #5a1db8;
             --primary-light: #8b5cf6;
             --secondary: #f59e0b;
             --accent: #ec4899;
@@ -21,92 +22,185 @@
             --danger: #ef4444;
             --gradient-1: linear-gradient(135deg, #6c2bd9, #ec4899);
             --gradient-2: linear-gradient(135deg, #f59e0b, #ef4444);
-            --glass: rgba(15, 15, 26, 0.85);
-            --glass-border: rgba(108, 43, 217, 0.3);
-            --radius: 20px;
+            --gradient-3: linear-gradient(135deg, #10b981, #3b82f6);
+            --radius: 16px;
             --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background: var(--dark); 
-            color: var(--text); 
-            overflow-x: hidden; 
-            padding-bottom: 280px;
-            min-height: 100vh;
-        }
+        body { font-family: 'Poppins', sans-serif; background: var(--dark); color: var(--text); overflow-x: hidden; padding-bottom: 140px; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--dark); }
         ::-webkit-scrollbar-thumb { background: var(--gradient-1); border-radius: 10px; }
 
-        /* Header simplificado */
-        .header { 
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; 
-            background: rgba(15, 15, 26, 0.95); backdrop-filter: blur(20px); 
-            border-bottom: 1px solid rgba(108, 43, 217, 0.2); 
-        }
-        .nav-container { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px 40px; max-width: 1400px; margin: 0 auto; 
-        }
+        .header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background: rgba(15, 15, 26, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(108, 43, 217, 0.2); transition: var(--transition); }
+        .header.scrolled { background: rgba(15, 15, 26, 0.98); box-shadow: 0 4px 30px rgba(108, 43, 217, 0.15); }
+        .header-top { display: flex; justify-content: space-between; align-items: center; padding: 8px 40px; background: rgba(108, 43, 217, 0.1); font-size: 0.8rem; color: var(--text-muted); }
+        .header-top a { color: var(--text-muted); text-decoration: none; transition: var(--transition); }
+        .header-top a:hover { color: var(--secondary); }
+        .header-top .social-links a { margin-left: 15px; font-size: 0.9rem; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 12px 40px; max-width: 1400px; margin: 0 auto; }
         .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .logo-icon { 
-            width: 45px; height: 45px; background: var(--gradient-1); 
-            border-radius: 12px; display: flex; align-items: center; justify-content: center; 
-            font-size: 1.3rem; color: white; animation: pulse-glow 2s infinite; 
-        }
-        @keyframes pulse-glow { 
-            0%, 100% { box-shadow: 0 0 20px rgba(108, 43, 217, 0.4); } 
-            50% { box-shadow: 0 0 40px rgba(108, 43, 217, 0.8); } 
-        }
-        .logo-text h1 { 
-            font-size: 1.3rem; font-weight: 800; 
-            background: var(--gradient-1); -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; background-clip: text; 
-        }
-        .logo-text span { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; }
-
+        .logo-icon { width: 50px; height: 50px; background: var(--gradient-1); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; animation: pulse-glow 2s infinite; }
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(108, 43, 217, 0.4); } 50% { box-shadow: 0 0 40px rgba(108, 43, 217, 0.8); } }
+        .logo-text h1 { font-size: 1.4rem; font-weight: 800; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.1; }
+        .logo-text span { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 3px; }
         .nav-menu { display: flex; list-style: none; gap: 5px; }
-        .nav-menu li a { 
-            color: var(--text); text-decoration: none; padding: 10px 16px; 
-            border-radius: 10px; font-size: 0.8rem; font-weight: 500; 
-            transition: var(--transition); text-transform: uppercase; letter-spacing: 1px; 
-        }
-        .nav-menu li a:hover, .nav-menu li a.active { 
-            color: var(--primary-light); background: rgba(108, 43, 217, 0.1); 
-        }
-        .nav-live-badge { 
-            background: var(--danger); color: white; padding: 5px 14px; 
-            border-radius: 18px; font-size: 0.7rem; font-weight: 700; 
-            display: flex; align-items: center; gap: 5px; animation: blink 1.5s infinite; 
-        }
+        .nav-menu li a { color: var(--text); text-decoration: none; padding: 10px 18px; border-radius: 10px; font-size: 0.85rem; font-weight: 500; transition: var(--transition); position: relative; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-menu li a::after { content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background: var(--gradient-1); transition: var(--transition); border-radius: 2px; }
+        .nav-menu li a:hover::after, .nav-menu li a.active::after { width: 60%; }
+        .nav-menu li a:hover, .nav-menu li a.active { color: var(--primary-light); background: rgba(108, 43, 217, 0.1); }
+        .nav-live-badge { background: var(--danger); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 6px; animation: blink 1.5s infinite; text-transform: uppercase; letter-spacing: 1px; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .nav-live-badge i { font-size: 0.5rem; }
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; z-index: 1001; }
+        .menu-toggle span { width: 28px; height: 3px; background: var(--text); border-radius: 3px; transition: var(--transition); }
+        .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
 
-        .menu-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 8px; }
-        .menu-toggle span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; }
+        .slider-section { margin-top: 130px; position: relative; width: 100%; height: 550px; overflow: hidden; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease, transform 1s ease; transform: scale(1.05); }
+        .slide.active { opacity: 1; transform: scale(1); }
+        .slide img { width: 100%; height: 100%; object-fit: cover; }
+        .slide-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(15,15,26,0.3) 0%, rgba(15,15,26,0.6) 50%, rgba(15,15,26,0.95) 100%); }
+        .slide-content { position: absolute; bottom: 80px; left: 60px; max-width: 600px; z-index: 2; }
+        .slide-tag { display: inline-block; background: var(--gradient-1); padding: 6px 18px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
+        .slide-content h2 { font-size: 3rem; font-weight: 800; line-height: 1.1; margin-bottom: 15px; text-shadow: 2px 4px 20px rgba(0,0,0,0.5); }
+        .slide-content p { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 25px; }
+        .slide-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--gradient-1); color: white; padding: 14px 32px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: var(--transition); }
+        .slide-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(108, 43, 217, 0.4); }
+        .slider-controls { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10; }
+        .slider-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: var(--transition); border: 2px solid transparent; }
+        .slider-dot.active { background: var(--primary-light); border-color: white; transform: scale(1.3); }
+        .slider-arrows { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 20px; z-index: 10; pointer-events: none; }
+        .slider-arrow { width: 50px; height: 50px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; cursor: pointer; transition: var(--transition); pointer-events: all; }
+        .slider-arrow:hover { background: var(--primary); border-color: var(--primary); transform: scale(1.1); }
+        .slider-progress { position: absolute; bottom: 0; left: 0; height: 4px; background: var(--gradient-1); z-index: 10; transition: width 0.1s linear; }
 
-        /* Contenido principal simplificado */
-        .main-content { max-width: 1400px; margin: 0 auto; padding: 100px 40px 60px; }
-        .hero { 
-            text-align: center; padding: 80px 20px; 
-            background: linear-gradient(135deg, rgba(108,43,217,0.1) 0%, rgba(236,72,153,0.1) 100%);
-            border-radius: var(--radius); margin-bottom: 40px;
-            border: 1px solid var(--glass-border);
-        }
-        .hero h1 { font-size: 3rem; font-weight: 900; margin-bottom: 15px; }
-        .hero h1 span { background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto 25px; }
-        .hero-btn { 
-            display: inline-flex; align-items: center; gap: 10px; 
-            background: var(--gradient-1); color: white; padding: 14px 32px; 
-            border-radius: 14px; text-decoration: none; font-weight: 600; 
-            transition: var(--transition); border: none; cursor: pointer; font-size: 0.95rem;
-        }
-        .hero-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(108, 43, 217, 0.4); }
+        .main-content { max-width: 1400px; margin: 0 auto; padding: 60px 40px; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header .tag { display: inline-block; background: rgba(108, 43, 217, 0.15); color: var(--primary-light); padding: 6px 20px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
+        .section-header h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; }
+        .section-header h2 span { background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .section-header p { color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto; }
+
+        .locutores-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        .locutor-card { background: var(--dark-card); border-radius: var(--radius); overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: var(--transition); }
+        .locutor-card:hover { transform: translateY(-10px); border-color: rgba(108, 43, 217, 0.3); box-shadow: 0 20px 60px rgba(108, 43, 217, 0.2); }
+        .locutor-image { position: relative; height: 320px; overflow: hidden; }
+        .locutor-image img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); filter: brightness(0.85); }
+        .locutor-card:hover .locutor-image img { transform: scale(1.08); filter: brightness(1); }
+        .locutor-image .locutor-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(15,15,26,0.95) 0%, rgba(15,15,26,0.4) 40%, transparent 70%); }
+        .locutor-badge { position: absolute; top: 15px; right: 15px; background: var(--gradient-1); padding: 6px 14px; border-radius: 10px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; z-index: 2; }
+        .locutor-badge.on-air { background: var(--danger); animation: blink 1.5s infinite; }
+        .locutor-mic-icon { position: absolute; bottom: 15px; left: 15px; width: 45px; height: 45px; background: rgba(108, 43, 217, 0.8); backdrop-filter: blur(10px); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: white; z-index: 2; border: 2px solid rgba(255,255,255,0.2); }
+        .locutor-body { padding: 25px; text-align: center; position: relative; }
+        .locutor-body::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 50px; height: 3px; background: var(--gradient-1); border-radius: 3px; }
+        .locutor-body h3 { font-size: 1.25rem; font-weight: 800; margin-bottom: 4px; transition: var(--transition); }
+        .locutor-card:hover .locutor-body h3 { color: var(--primary-light); }
+        .locutor-body .role { color: var(--secondary); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+        .locutor-body p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; margin-bottom: 18px; }
+        .locutor-stats { display: flex; justify-content: center; gap: 25px; margin-bottom: 18px; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .locutor-stat { text-align: center; }
+        .locutor-stat .number { font-size: 1.1rem; font-weight: 800; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .locutor-stat .label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .locutor-socials { display: flex; justify-content: center; gap: 10px; }
+        .locutor-socials a { width: 40px; height: 40px; border-radius: 50%; background: rgba(108, 43, 217, 0.15); display: flex; align-items: center; justify-content: center; color: var(--primary-light); text-decoration: none; transition: var(--transition); font-size: 0.9rem; }
+        .locutor-socials a:hover { background: var(--primary); color: white; transform: translateY(-3px) scale(1.1); box-shadow: 0 5px 15px rgba(108, 43, 217, 0.4); }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        .card { background: var(--dark-card); border-radius: var(--radius); overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: var(--transition); }
+        .card:hover { transform: translateY(-8px); border-color: rgba(108, 43, 217, 0.3); box-shadow: 0 20px 60px rgba(108, 43, 217, 0.15); }
+        .card-image { position: relative; height: 200px; overflow: hidden; }
+        .card-image img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .card:hover .card-image img { transform: scale(1.1); }
+        .card-image .card-tag { position: absolute; top: 15px; left: 15px; background: var(--gradient-1); padding: 4px 14px; border-radius: 8px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .card-body { padding: 25px; }
+        .card-body h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; transition: var(--transition); }
+        .card:hover .card-body h3 { color: var(--primary-light); }
+        .card-body p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; }
+        .card-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-muted); }
+        .card-meta i { margin-right: 5px; color: var(--primary-light); }
+
+        .prog-current-clock { display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 40px; padding: 25px; background: var(--dark-card); border-radius: var(--radius); border: 1px solid rgba(108, 43, 217, 0.2); }
+        .clock-display { text-align: center; }
+        .clock-time { font-size: 3rem; font-weight: 900; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-variant-numeric: tabular-nums; }
+        .clock-date { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
+        .clock-day-badge { background: var(--gradient-2); padding: 8px 20px; border-radius: 12px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-left: 20px; }
+        .current-program-box { background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1)); border: 2px solid var(--danger); border-radius: 16px; padding: 20px 30px; margin-bottom: 30px; display: flex; align-items: center; gap: 20px; animation: glow-live 2s infinite; }
+        @keyframes glow-live { 0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.2); } 50% { box-shadow: 0 0 40px rgba(239, 68, 68, 0.4); } }
+        .current-program-box .live-icon { width: 60px; height: 60px; background: var(--danger); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; animation: blink 1.5s infinite; flex-shrink: 0; }
+        .current-program-info h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 3px; }
+        .current-program-info p { color: var(--text-muted); font-size: 0.9rem; }
+        .current-program-info .time-remaining { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); padding: 4px 12px; border-radius: 8px; font-size: 0.75rem; color: var(--secondary); font-weight: 600; margin-top: 8px; }
+        .programacion-list { max-width: 900px; margin: 0 auto 60px; }
+        .programacion-item { display: flex; align-items: center; gap: 20px; padding: 16px 25px; background: var(--dark-card); border-radius: 14px; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.05); transition: var(--transition); position: relative; overflow: hidden; }
+        .programacion-item::before { content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: transparent; transition: var(--transition); }
+        .programacion-item:hover { border-color: rgba(108, 43, 217, 0.3); transform: translateX(8px); box-shadow: 0 10px 30px rgba(108, 43, 217, 0.1); }
+        .programacion-item.is-live { border-color: var(--danger); background: rgba(239, 68, 68, 0.08); transform: scale(1.02); }
+        .programacion-item.is-live::before { background: var(--danger); box-shadow: 0 0 15px var(--danger); }
+        .programacion-item.is-live .prog-time .hour { color: var(--danger); }
+        .programacion-item.is-past { opacity: 0.4; }
+        .programacion-item.is-past::before { background: var(--text-muted); }
+        .programacion-item.is-upcoming::before { background: var(--secondary); }
+        .prog-time { min-width: 90px; text-align: center; }
+        .prog-time .hour { font-size: 1.2rem; font-weight: 800; color: var(--primary-light); transition: var(--transition); }
+        .prog-time .period { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; }
+        .prog-info { flex: 1; }
+        .prog-info h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 3px; }
+        .prog-info p { font-size: 0.78rem; color: var(--text-muted); }
+        .prog-status-badge { padding: 4px 12px; border-radius: 15px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+        .prog-status-badge.live { background: var(--danger); color: white; animation: blink 1.5s infinite; }
+        .prog-status-badge.past { background: rgba(148, 163, 184, 0.2); color: var(--text-muted); }
+        .prog-status-badge.upcoming { background: rgba(245, 158, 11, 0.2); color: var(--secondary); }
+
+        .videos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        .video-card { background: var(--dark-card); border-radius: var(--radius); overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: var(--transition); }
+        .video-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+        .video-thumbnail { position: relative; height: 200px; overflow: hidden; }
+        .video-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .video-card:hover .video-thumbnail img { transform: scale(1.05); opacity: 0.7; }
+        .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background: var(--gradient-1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.3rem; z-index: 2; transition: var(--transition); box-shadow: 0 5px 25px rgba(108, 43, 217, 0.5); }
+        .video-card:hover .play-btn { transform: translate(-50%, -50%) scale(1.15); }
+        .video-duration { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.8); padding: 3px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+        .video-info { padding: 20px; }
+        .video-info h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+        .video-info p { font-size: 0.8rem; color: var(--text-muted); }
+
+        .news-timeline { max-width: 800px; margin: 0 auto 60px; position: relative; }
+        .news-timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 2px; background: var(--gradient-1); }
+        .news-item { position: relative; padding-left: 60px; margin-bottom: 30px; }
+        .news-item::before { content: ''; position: absolute; left: 13px; top: 5px; width: 16px; height: 16px; background: var(--primary); border-radius: 50%; border: 3px solid var(--dark); }
+        .news-item .date { font-size: 0.75rem; color: var(--primary-light); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .news-item h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+        .news-item p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+        .footer { background: var(--dark-light); border-top: 1px solid rgba(255,255,255,0.05); margin-bottom: 80px; }
+        .footer-main { max-width: 1400px; margin: 0 auto; padding: 60px 40px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+        .footer-brand h3 { font-size: 1.5rem; font-weight: 800; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 15px; }
+        .footer-brand p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 20px; }
+        .footer-social { display: flex; gap: 10px; }
+        .footer-social a { width: 42px; height: 42px; border-radius: 12px; background: rgba(108, 43, 217, 0.15); display: flex; align-items: center; justify-content: center; color: var(--primary-light); text-decoration: none; transition: var(--transition); font-size: 1rem; }
+        .footer-social a:hover { background: var(--primary); color: white; transform: translateY(-3px); }
+        .footer-col h4 { font-size: 1rem; font-weight: 700; margin-bottom: 20px; position: relative; padding-bottom: 10px; }
+        .footer-col h4::after { content: ''; position: absolute; bottom: 0; left: 0; width: 30px; height: 3px; background: var(--gradient-1); border-radius: 3px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: var(--transition); display: flex; align-items: center; gap: 8px; }
+        .footer-col ul li a:hover { color: var(--primary-light); transform: translateX(5px); }
+        .footer-col ul li a i { font-size: 0.7rem; color: var(--primary-light); }
+        .contact-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 15px; }
+        .contact-item i { color: var(--primary-light); font-size: 1rem; margin-top: 3px; }
+        .contact-item .info span { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .contact-item .info a, .contact-item .info p { color: var(--text); text-decoration: none; font-size: 0.9rem; transition: var(--transition); }
+        .contact-item .info a:hover { color: var(--primary-light); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding: 20px 40px; text-align: center; }
+        .footer-bottom p { color: var(--text-muted); font-size: 0.8rem; }
+        .footer-bottom a { color: var(--primary-light); text-decoration: none; }
 
         /* ============================================
-           🎵 REPRODUCTOR MODERNO CON ONDAS
+           🆕 REPRODUCTOR MODERNO CON VISUALIZADOR
         ============================================ */
         .modern-player {
             position: fixed;
@@ -114,109 +208,116 @@
             left: 0;
             width: 100%;
             z-index: 9999;
-            background: var(--glass);
-            backdrop-filter: blur(30px);
-            border-top: 1px solid var(--glass-border);
-            box-shadow: 0 -10px 60px rgba(0,0,0,0.5);
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(108, 43, 217, 0.3);
+            box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.5);
         }
 
-        /* Canvas de ondas de audio - fondo completo */
-        .waveform-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .player-visualizer {
+            width: 100%;
+            height: 60px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(90deg, rgba(108,43,217,0.1), rgba(236,72,153,0.1), rgba(108,43,217,0.1));
+        }
+
+        .player-visualizer canvas {
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            opacity: 0.4;
-            z-index: 0;
+            display: block;
         }
 
-        .player-content {
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
+        .player-visualizer::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(to top, rgba(15,15,26,0.9), transparent);
+            pointer-events: none;
+        }
+
+        .player-main {
+            display: flex;
             align-items: center;
-            padding: 15px 30px;
-            max-width: 1400px;
-            margin: 0 auto;
+            justify-content: space-between;
+            padding: 12px 25px;
             gap: 20px;
         }
 
-        /* Sección izquierda: Info del track + historial toggle */
-        .player-left {
+        /* Info del track */
+        .player-info {
             display: flex;
             align-items: center;
             gap: 15px;
-            min-width: 0;
+            min-width: 280px;
+            max-width: 350px;
         }
 
-        .player-art {
-            width: 65px;
-            height: 65px;
-            border-radius: 16px;
+        .player-artwork {
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
             background: var(--gradient-1);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: white;
             flex-shrink: 0;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 25px rgba(108, 43, 217, 0.4);
+            animation: pulse-glow 2s infinite;
         }
 
-        .player-art img {
+        .player-artwork img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .player-art::after {
+        .player-artwork::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, transparent 40%, rgba(0,0,0,0.3) 100%);
+            background: var(--gradient-1);
+            opacity: 0.3;
+            animation: shimmer 2s infinite;
         }
 
-        .player-art.playing {
-            animation: artPulse 2s ease-in-out infinite;
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
-        @keyframes artPulse {
-            0%, 100% { box-shadow: 0 8px 25px rgba(108, 43, 217, 0.4); }
-            50% { box-shadow: 0 8px 40px rgba(108, 43, 217, 0.8); }
+        .player-text {
+            overflow: hidden;
         }
 
-        .player-info {
-            min-width: 0;
-            flex: 1;
-        }
-
-        .player-info .track-title {
+        .player-text .track-title {
             font-size: 0.95rem;
             font-weight: 700;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            margin-bottom: 3px;
+            color: var(--text);
         }
 
-        .player-info .track-artist {
-            font-size: 0.75rem;
+        .player-text .track-artist {
+            font-size: 0.78rem;
             color: var(--text-muted);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .player-info .live-badge {
+        .player-text .live-badge {
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: var(--danger);
             font-weight: 700;
             margin-top: 4px;
@@ -224,7 +325,7 @@
             letter-spacing: 1px;
         }
 
-        .player-info .live-badge .dot {
+        .player-text .live-badge .dot {
             width: 6px;
             height: 6px;
             background: var(--danger);
@@ -232,50 +333,22 @@
             animation: blink 1s infinite;
         }
 
-        .history-toggle {
-            background: rgba(108, 43, 217, 0.2);
-            border: 1px solid var(--glass-border);
-            color: var(--primary-light);
-            padding: 8px 14px;
-            border-radius: 10px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-        }
-
-        .history-toggle:hover, .history-toggle.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Sección central: Controles principales */
-        .player-center {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
+        /* Controles centrales */
         .player-controls {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 18px;
         }
 
         .player-controls button {
             background: none;
             border: none;
-            color: var(--text);
+            color: var(--text-muted);
             cursor: pointer;
             transition: var(--transition);
             font-size: 1rem;
             padding: 8px;
-            border-radius: 50%;
+            border-radius: 10px;
             width: 40px;
             height: 40px;
             display: flex;
@@ -285,93 +358,64 @@
 
         .player-controls button:hover {
             color: var(--primary-light);
-            background: rgba(108, 43, 217, 0.15);
-            transform: scale(1.1);
+            background: rgba(108, 43, 217, 0.1);
+            transform: scale(1.05);
         }
 
-        .btn-play {
-            width: 55px !important;
-            height: 55px !important;
-            background: var(--gradient-1) !important;
-            color: white !important;
-            font-size: 1.3rem !important;
-            box-shadow: 0 8px 30px rgba(108, 43, 217, 0.5);
-        }
-
-        .btn-play:hover {
-            transform: scale(1.1) !important;
-            box-shadow: 0 12px 40px rgba(108, 43, 217, 0.7) !important;
-            color: white !important;
-        }
-
-        .btn-play i { transition: transform 0.2s; }
-        .btn-play.playing i { transform: scale(0.95); }
-
-        .player-progress {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .progress-time {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            font-weight: 500;
-            min-width: 40px;
-            text-align: center;
-        }
-
-        .progress-bar {
-            flex: 1;
-            height: 5px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-bar .progress-fill {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
+        .player-controls .btn-play {
+            width: 55px;
+            height: 55px;
             background: var(--gradient-1);
-            border-radius: 10px;
-            width: 0%;
-            transition: width 0.1s linear;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.3rem;
+            box-shadow: 0 5px 25px rgba(108, 43, 217, 0.4);
+            transition: var(--transition);
         }
 
-        .progress-bar:hover .progress-fill {
-            box-shadow: 0 0 15px rgba(108, 43, 217, 0.6);
+        .player-controls .btn-play:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 35px rgba(108, 43, 217, 0.6);
         }
 
-        /* Sección derecha: Volumen + oyentes + extras */
-        .player-right {
+        .player-controls .btn-play.playing i {
+            display: none;
+        }
+
+        .player-controls .btn-play.playing i.fa-pause {
+            display: block;
+        }
+
+        .player-controls .btn-play i.fa-pause {
+            display: none;
+        }
+
+        /* Extras */
+        .player-extras {
             display: flex;
             align-items: center;
-            justify-content: flex-end;
             gap: 15px;
+            min-width: 220px;
+            justify-content: flex-end;
         }
 
-        .player-stats {
+        .player-listeners {
             display: flex;
             align-items: center;
-            gap: 12px;
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.75rem;
+            gap: 6px;
+            font-size: 0.78rem;
             color: var(--text-muted);
         }
 
-        .stat-item i { color: var(--success); }
-        .stat-item .value { color: var(--text); font-weight: 600; }
+        .player-listeners i {
+            color: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.9); }
+        }
 
         .volume-control {
             display: flex;
@@ -382,20 +426,28 @@
         .volume-control button {
             background: none;
             border: none;
-            color: var(--text);
+            color: var(--text-muted);
             cursor: pointer;
             font-size: 0.9rem;
             transition: var(--transition);
-            padding: 5px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
         }
 
-        .volume-control button:hover { color: var(--primary-light); }
+        .volume-control button:hover {
+            color: var(--primary-light);
+            background: rgba(108, 43, 217, 0.1);
+        }
 
         .volume-slider {
             -webkit-appearance: none;
             width: 70px;
             height: 4px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.15);
             border-radius: 4px;
             outline: none;
             cursor: pointer;
@@ -409,85 +461,89 @@
             border-radius: 50%;
             cursor: pointer;
             transition: var(--transition);
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.4);
         }
 
         .volume-slider::-webkit-slider-thumb:hover {
             transform: scale(1.3);
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
         }
 
-        .player-extras {
-            display: flex;
-            gap: 5px;
-        }
-
-        .player-extras button {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: rgba(108, 43, 217, 0.15);
-            border: none;
-            color: var(--primary-light);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.85rem;
-        }
-
-        .player-extras button:hover, .player-extras button.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* ============================================
-           📜 PANEL DE HISTORIAL DESPLEGABLE
-        ============================================ */
-        .history-panel {
+        /* Historial de reproducción */
+        .player-history {
             position: absolute;
             bottom: 100%;
-            left: 0;
-            width: 100%;
-            background: var(--dark-card);
-            border-top: 1px solid var(--glass-border);
-            border-radius: 20px 20px 0 0;
-            padding: 20px 30px;
-            max-height: 300px;
-            overflow-y: auto;
-            transform: translateY(10px);
+            right: 25px;
+            width: 320px;
+            max-height: 280px;
+            background: rgba(22, 33, 62, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 16px 16px 0 0;
+            border: 1px solid rgba(108, 43, 217, 0.3);
+            border-bottom: none;
+            padding: 15px 20px;
             opacity: 0;
             visibility: hidden;
+            transform: translateY(10px);
             transition: var(--transition);
-            z-index: 3;
+            z-index: 10000;
+            overflow: hidden;
         }
 
-        .history-panel.active {
-            transform: translateY(0);
+        .player-history.show {
             opacity: 1;
             visibility: visible;
+            transform: translateY(0);
         }
 
-        .history-panel h4 {
+        .player-history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 12px;
+        }
+
+        .player-history-header h4 {
             font-size: 0.85rem;
             font-weight: 700;
             color: var(--primary-light);
-            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        }
+
+        .player-history-header button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .player-history-header button:hover {
+            color: var(--danger);
         }
 
         .history-list {
             display: flex;
             flex-direction: column;
             gap: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 5px;
         }
+
+        .history-list::-webkit-scrollbar { width: 4px; }
+        .history-list::-webkit-scrollbar-track { background: transparent; }
+        .history-list::-webkit-scrollbar-thumb { background: var(--gradient-1); border-radius: 4px; }
 
         .history-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 10px 14px;
+            gap: 10px;
+            padding: 8px 10px;
             background: rgba(255,255,255,0.03);
             border-radius: 10px;
             transition: var(--transition);
@@ -496,7 +552,7 @@
 
         .history-item:hover {
             background: rgba(108, 43, 217, 0.15);
-            transform: translateX(5px);
+            transform: translateX(3px);
         }
 
         .history-item.current {
@@ -504,17 +560,24 @@
             border-left: 3px solid var(--primary-light);
         }
 
-        .history-item .art {
-            width: 40px;
-            height: 40px;
+        .history-item .mini-art {
+            width: 36px;
+            height: 36px;
             border-radius: 8px;
             background: var(--gradient-1);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: white;
             flex-shrink: 0;
+        }
+
+        .history-item .mini-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
         }
 
         .history-item .info {
@@ -528,11 +591,15 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: var(--text);
         }
 
         .history-item .info .artist {
             font-size: 0.7rem;
             color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .history-item .time {
@@ -541,806 +608,939 @@
             white-space: nowrap;
         }
 
-        .history-clear {
-            margin-top: 15px;
-            padding: 8px 16px;
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 600;
+        .history-toggle {
+            background: none;
+            border: none;
+            color: var(--text-muted);
             cursor: pointer;
+            font-size: 0.9rem;
+            padding: 8px;
+            border-radius: 10px;
             transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .history-clear:hover {
-            background: var(--danger);
-            color: white;
-        }
-
-        /* ============================================
-           RESPONSIVE
-        ============================================ */
-        @media (max-width: 1024px) {
-            .player-content { grid-template-columns: 1fr auto; grid-template-areas: "left center" "right right"; }
-            .player-left { grid-area: left; }
-            .player-center { grid-area: center; }
-            .player-right { grid-area: right; justify-content: flex-start; }
-        }
-
-        @media (max-width: 768px) {
-            .menu-toggle { display: flex; }
-            .nav-menu { 
-                position: fixed; top: 0; left: -100%; width: 80%; max-width: 300px; 
-                height: 100vh; background: var(--dark-light); flex-direction: column; 
-                padding: 80px 20px 20px; gap: 5px; transition: left 0.4s ease; z-index: 1000; 
-            }
-            .nav-menu.open { left: 0; }
-            .nav-menu li a { display: block; padding: 12px 16px; font-size: 0.9rem; }
-            .nav-container { padding: 12px 20px; }
-            .main-content { padding: 90px 20px 40px; }
-            .hero h1 { font-size: 2rem; }
-            .hero p { font-size: 0.95rem; }
-
-            .player-content { 
-                grid-template-columns: 1fr; 
-                grid-template-areas: "left" "center" "right";
-                padding: 12px 20px;
-                gap: 12px;
-            }
-            .player-left { justify-content: center; }
-            .player-center { width: 100%; }
-            .player-right { justify-content: center; flex-wrap: wrap; }
-            .player-progress { max-width: 100%; }
-            .volume-slider { width: 50px; }
-            .player-stats { display: none; }
-            .history-toggle { font-size: 0.7rem; padding: 6px 10px; }
-        }
-
-        @media (max-width: 480px) {
-            .player-art { width: 55px; height: 55px; font-size: 1.2rem; }
-            .player-info .track-title { font-size: 0.85rem; }
-            .player-info .track-artist { font-size: 0.7rem; }
-            .btn-play { width: 50px !important; height: 50px !important; font-size: 1.1rem !important; }
-            .player-controls button { width: 36px; height: 36px; font-size: 0.9rem; }
-            .history-panel { padding: 15px 20px; }
-        }
-
-        /* Animaciones adicionales */
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-in { animation: fadeInUp 0.5s ease forwards; }
-
-        /* Badge de conexión */
-        .connection-status {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 5px;
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            border-radius: 10px;
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--success);
-            margin-left: 10px;
         }
-        .connection-status.error {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger);
+
+        .history-toggle:hover,
+        .history-toggle.active {
+            color: var(--primary-light);
+            background: rgba(108, 43, 217, 0.1);
         }
-        .connection-status .dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            background: currentColor; animation: blink 1.5s infinite;
+
+        .history-toggle.active i {
+            color: var(--primary-light);
+        }
+
+        /* Responsive player */
+        @media (max-width: 768px) {
+            .player-main {
+                flex-wrap: wrap;
+                padding: 10px 15px;
+                gap: 12px;
+            }
+            .player-info { min-width: auto; max-width: 60%; }
+            .player-text .track-title { font-size: 0.85rem; }
+            .player-text .track-artist { font-size: 0.7rem; }
+            .player-controls { gap: 12px; }
+            .player-controls .btn-play { width: 48px; height: 48px; font-size: 1.1rem; }
+            .player-extras { min-width: auto; width: 100%; justify-content: space-between; }
+            .volume-slider { width: 50px; }
+            .player-history {
+                width: calc(100% - 30px);
+                right: 15px;
+                left: 15px;
+                border-radius: 16px 16px 0 0;
+            }
+        }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 1024px) { .footer-main { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+            .nav-menu { position: fixed; top: 0; left: -100%; width: 80%; max-width: 350px; height: 100vh; background: var(--dark-light); flex-direction: column; padding: 100px 30px 30px; gap: 5px; transition: left 0.5s ease; z-index: 1000; border-right: 1px solid rgba(108, 43, 217, 0.2); }
+            .nav-menu.open { left: 0; }
+            .nav-menu li a { display: block; padding: 14px 20px; font-size: 0.95rem; }
+            .nav-container { padding: 12px 20px; }
+            .header-top { display: none; }
+            .slider-section { height: 350px; margin-top: 85px; }
+            .slide-content { left: 25px; bottom: 60px; max-width: 85%; }
+            .slide-content h2 { font-size: 1.6rem; }
+            .main-content { padding: 40px 20px; }
+            .section-header h2 { font-size: 1.8rem; }
+            .cards-grid, .locutores-grid, .videos-grid { grid-template-columns: 1fr; }
+            .footer-main { grid-template-columns: 1fr; padding: 40px 20px; }
+            .prog-current-clock { flex-direction: column; gap: 10px; padding: 20px; }
+            .clock-time { font-size: 2.2rem; }
+            .current-program-box { flex-direction: column; text-align: center; padding: 20px; }
+            .programacion-item { flex-direction: column; text-align: center; gap: 10px; }
+            .locutor-image { height: 280px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="header">
+    <!-- HEADER -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <div id="headerContactInfo">
+                <a href="mailto:contacto@turadio.com"><i class="fas fa-envelope"></i> contacto@turadio.com</a>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="tel:+1234567890"><i class="fas fa-phone"></i> +1 (234) 567-890</a>
+            </div>
+            <div class="social-links" id="headerSocials">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
         <nav class="nav-container">
             <a href="#" class="logo">
                 <div class="logo-icon"><i class="fas fa-broadcast-tower"></i></div>
                 <div class="logo-text">
-                    <h1>TU RADIO</h1>
-                    <span>Streaming Online</span>
+                    <h1 id="siteName">TU RADIO</h1>
+                    <span id="siteTagline">Streaming Online</span>
                 </div>
             </a>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="#" class="active">Inicio</a></li>
-                <li><a href="#">Locutores</a></li>
-                <li><a href="#">Noticias</a></li>
-                <li><a href="#">Programación</a></li>
-                <li><a href="#">Videos</a></li>
+                <li><a href="#inicio" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="#locutores"><i class="fas fa-microphone-alt"></i> Locutores</a></li>
+                <li><a href="#noticias"><i class="fas fa-newspaper"></i> Noticias</a></li>
+                <li><a href="#sliders"><i class="fas fa-images"></i> Sliders</a></li>
+                <li><a href="#programacion"><i class="fas fa-calendar-alt"></i> Programación</a></li>
+                <li><a href="#videos"><i class="fas fa-video"></i> Videos</a></li>
+                <li><a href="#historial"><i class="fas fa-history"></i> Historial</a></li>
             </ul>
-            <div style="display:flex; align-items:center; gap:12px;">
+            <div style="display:flex; align-items:center; gap:15px;">
                 <div class="nav-live-badge"><i class="fas fa-circle"></i> EN VIVO</div>
-                <div class="menu-toggle" id="menuToggle">
-                    <span></span><span></span><span></span>
-                </div>
+                <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
             </div>
         </nav>
     </header>
 
-    <!-- Contenido Principal -->
+    <!-- SLIDER -->
+    <section class="slider-section" id="inicio">
+        <div id="sliderContainer"></div>
+        <div class="slider-arrows"><div class="slider-arrow" id="prevSlide"><i class="fas fa-chevron-left"></i></div><div class="slider-arrow" id="nextSlide"><i class="fas fa-chevron-right"></i></div></div>
+        <div class="slider-controls" id="sliderDots"></div>
+        <div class="slider-progress" id="sliderProgress"></div>
+    </section>
+
+    <!-- CONTENIDO PRINCIPAL -->
     <main class="main-content">
-        <section class="hero animate-in">
-            <h1>🎵 Tu Música <span>Sin Parar</span></h1>
-            <p>Disfruta de la mejor selección musical las 24 horas del día con nuestro reproductor moderno y visual.</p>
-            <button class="hero-btn" id="startStream">
-                <i class="fas fa-play"></i> Comenzar a Escuchar
-            </button>
+
+        <!-- Noticias -->
+        <section id="noticias" class="reveal">
+            <div class="section-header"><span class="tag"><i class="fas fa-bolt"></i> Últimas Noticias</span><h2 id="newsTitle">Noticias <span>Destacadas</span></h2><p id="newsDesc">Mantente informado con las últimas novedades.</p></div>
+            <div class="cards-grid" id="newsGrid"></div>
         </section>
 
-        <!-- Placeholder para más contenido -->
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px;">
-            <div style="background:var(--dark-card); padding:25px; border-radius:16px; border:1px solid rgba(255,255,255,0.05);">
-                <h3 style="margin-bottom:10px;"><i class="fas fa-microphone-alt" style="color:var(--primary-light); margin-right:8px;"></i> Locutores</h3>
-                <p style="color:var(--text-muted); font-size:0.9rem;">Conoce a nuestro equipo de profesionales.</p>
-            </div>
-            <div style="background:var(--dark-card); padding:25px; border-radius:16px; border:1px solid rgba(255,255,255,0.05);">
-                <h3 style="margin-bottom:10px;"><i class="fas fa-calendar-alt" style="color:var(--primary-light); margin-right:8px;"></i> Programación</h3>
-                <p style="color:var(--text-muted); font-size:0.9rem;">Consulta nuestros horarios en tiempo real.</p>
-            </div>
-            <div style="background:var(--dark-card); padding:25px; border-radius:16px; border:1px solid rgba(255,255,255,0.05);">
-                <h3 style="margin-bottom:10px;"><i class="fas fa-newspaper" style="color:var(--primary-light); margin-right:8px;"></i> Noticias</h3>
-                <p style="color:var(--text-muted); font-size:0.9rem;">Mantente informado con las últimas novedades.</p>
-            </div>
-        </div>
+        <!-- Locutores -->
+        <section id="locutores" class="reveal">
+            <div class="section-header"><span class="tag"><i class="fas fa-microphone"></i> Nuestro Equipo</span><h2 id="locTitle">Conoce a Nuestros <span>Locutores</span></h2><p id="locDesc">Profesionales apasionados que hacen posible la magia de nuestra radio.</p></div>
+            <div class="locutores-grid" id="locutoresGrid"></div>
+        </section>
+
+        <!-- Programación -->
+        <section id="programacion" class="reveal">
+            <div class="section-header"><span class="tag"><i class="fas fa-calendar"></i> Horarios en Tiempo Real</span><h2>Programación <span>Diaria Completa</span></h2><p>Se actualiza automáticamente según la hora actual.</p></div>
+            <div class="prog-current-clock" id="progClock"><div class="clock-display"><div class="clock-time" id="clockTime">00:00:00</div><div class="clock-date" id="clockDate">Cargando...</div></div><div class="clock-day-badge" id="clockDay">--</div></div>
+            <div class="current-program-box" id="currentProgramBox"><div class="live-icon"><i class="fas fa-broadcast-tower"></i></div><div class="current-program-info"><h3 id="currentProgName">Cargando...</h3><p id="currentProgDesc">Obteniendo información...</p><div class="time-remaining" id="progTimeRemaining"><i class="fas fa-hourglass-half"></i><span>--</span></div></div></div>
+            <div class="programacion-list" id="programacionList"></div>
+        </section>
+
+        <!-- Galería -->
+        <section id="sliders" class="reveal">
+            <div class="section-header"><span class="tag"><i class="fas fa-images"></i> Galería</span><h2 id="galTitle">Galería <span>Destacada</span></h2></div>
+            <div class="cards-grid" id="galleryGrid"></div>
+        </section>
+
+        <!-- Videos -->
+        <section id="videos" class="reveal">
+            <div class="section-header"><span class="tag"><i class="fas fa-play-circle"></i> Multimedia</span><h2 id="vidTitle">Videos <span>Destacados</span></h2></div>
+            <div class="videos-grid" id="videosGrid"></div>
+        </section>
+
+        <!-- Historial -->
+        <section id="historial" class="reveal">
+            <div class="section-header"><span class="tag"><i class="fas fa-history"></i> Registro</span><h2 id="histTitle">Historial <span>de Reproducción</span></h2></div>
+            <div class="news-timeline" id="historialTimeline"></div>
+        </section>
+
     </main>
 
-    <!-- ==========================================
-         🎵 REPRODUCTOR MODERNO CON ONDAS
-    ========================================== -->
-    <div class="modern-player" id="modernPlayer">
-        <!-- Canvas para ondas de audio -->
-        <canvas class="waveform-canvas" id="waveformCanvas"></canvas>
-
-        <!-- Panel de historial desplegable -->
-        <div class="history-panel" id="historyPanel">
-            <h4><i class="fas fa-history"></i> Historial de Reproducción</h4>
-            <div class="history-list" id="historyList">
-                <!-- Se llena con JavaScript -->
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-main">
+            <div class="footer-brand">
+                <h3 id="footerBrandName">🎙️ TU RADIO</h3>
+                <p id="footerDesc">Tu emisora online favorita transmitiendo las 24 horas del día.</p>
+                <div class="footer-social" id="footerSocials"></div>
             </div>
-            <button class="history-clear" id="clearHistory">
-                <i class="fas fa-trash"></i> Limpiar Historial
-            </button>
+            <div class="footer-col">
+                <h4>Navegación</h4>
+                <ul>
+                    <li><a href="#inicio"><i class="fas fa-chevron-right"></i> Inicio</a></li>
+                    <li><a href="#locutores"><i class="fas fa-chevron-right"></i> Locutores</a></li>
+                    <li><a href="#noticias"><i class="fas fa-chevron-right"></i> Noticias</a></li>
+                    <li><a href="#programacion"><i class="fas fa-chevron-right"></i> Programación</a></li>
+                    <li><a href="#videos"><i class="fas fa-chevron-right"></i> Videos</a></li>
+                    <li><a href="#historial"><i class="fas fa-chevron-right"></i> Historial</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Términos</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Privacidad</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Cookies</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contacto</h4>
+                <div id="footerContactInfo"></div>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2026 <a href="#" id="footerLink">TU RADIO</a>. Todos los derechos reservados.</p></div>
+    </footer>
+
+    <!-- ============================================
+         🆕 REPRODUCTOR MODERNO CON VISUALIZADOR
+    ============================================ -->
+    <div class="modern-player" id="modernPlayer">
+        <!-- Visualizador de ondas -->
+        <div class="player-visualizer">
+            <canvas id="visualizerCanvas"></canvas>
         </div>
 
-        <div class="player-content">
-            <!-- Izquierda: Info + Historial toggle -->
-            <div class="player-left">
-                <div class="player-art" id="playerArt">
+        <!-- Controles principales -->
+        <div class="player-main">
+            <!-- Info del track -->
+            <div class="player-info">
+                <div class="player-artwork" id="playerArtwork">
                     <i class="fas fa-music"></i>
                 </div>
-                <div class="player-info">
+                <div class="player-text">
                     <div class="track-title" id="trackTitle">Conectando...</div>
-                    <div class="track-artist" id="trackArtist">Obteniendo metadatos</div>
-                    <div class="live-badge">
-                        <span class="dot"></span> EN VIVO
-                    </div>
+                    <div class="track-artist" id="trackArtist">Obteniendo metadatos...</div>
+                    <div class="live-badge"><span class="dot"></span> EN VIVO</div>
                 </div>
-                <button class="history-toggle" id="historyToggle">
-                    <i class="fas fa-history"></i> Historial
+            </div>
+
+            <!-- Controles -->
+            <div class="player-controls">
+                <button id="btnShuffle" title="Aleatorio"><i class="fas fa-random"></i></button>
+                <button id="btnPrev" title="Anterior"><i class="fas fa-step-backward"></i></button>
+                <button class="btn-play" id="btnPlay" title="Reproducir/Pausar">
+                    <i class="fas fa-play"></i>
+                    <i class="fas fa-pause"></i>
                 </button>
+                <button id="btnNext" title="Siguiente"><i class="fas fa-step-forward"></i></button>
+                <button id="btnRepeat" title="Repetir"><i class="fas fa-redo"></i></button>
             </div>
 
-            <!-- Centro: Controles -->
-            <div class="player-center">
-                <div class="player-controls">
-                    <button id="btnShuffle" title="Aleatorio"><i class="fas fa-random"></i></button>
-                    <button id="btnPrev" title="Anterior"><i class="fas fa-step-backward"></i></button>
-                    <button class="btn-play" id="btnPlay" title="Reproducir / Pausar">
-                        <i class="fas fa-play" id="playIcon"></i>
-                    </button>
-                    <button id="btnNext" title="Siguiente"><i class="fas fa-step-forward"></i></button>
-                    <button id="btnRepeat" title="Repetir"><i class="fas fa-redo"></i></button>
-                </div>
-                <div class="player-progress">
-                    <span class="progress-time" id="currentTime">0:00</span>
-                    <div class="progress-bar" id="progressBar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <span class="progress-time" id="totalTime">∞</span>
-                </div>
-            </div>
-
-            <!-- Derecha: Volumen + Stats + Extras -->
-            <div class="player-right">
-                <div class="player-stats">
-                    <div class="stat-item">
-                        <i class="fas fa-users"></i>
-                        <span class="value" id="listenerCount">--</span> oyentes
-                    </div>
-                    <span class="connection-status" id="connectionStatus">
-                        <span class="dot"></span> Conectando
-                    </span>
+            <!-- Extras -->
+            <div class="player-extras">
+                <button class="history-toggle" id="historyToggle" title="Historial">
+                    <i class="fas fa-history"></i> <span>Historial</span>
+                </button>
+                <div class="player-listeners">
+                    <i class="fas fa-users"></i>
+                    <span id="listenerCount">--</span> oyentes
                 </div>
                 <div class="volume-control">
-                    <button id="btnMute" title="Silenciar">
-                        <i class="fas fa-volume-up" id="volumeIcon"></i>
-                    </button>
+                    <button id="btnMute" title="Silenciar"><i class="fas fa-volume-up" id="volumeIcon"></i></button>
                     <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="80">
                 </div>
-                <div class="player-extras">
-                    <button id="btnHeart" title="Me gusta"><i class="far fa-heart"></i></button>
-                    <button id="btnShare" title="Compartir"><i class="fas fa-share-alt"></i></button>
-                    <button id="btnFullscreen" title="Expandir"><i class="fas fa-expand"></i></button>
-                </div>
             </div>
+        </div>
+
+        <!-- Panel de historial -->
+        <div class="player-history" id="playerHistory">
+            <div class="player-history-header">
+                <h4><i class="fas fa-clock-rotate-left"></i> Últimas Canciones</h4>
+                <button id="clearHistory"><i class="fas fa-trash"></i></button>
+            </div>
+            <div class="history-list" id="historyList"></div>
         </div>
     </div>
 
-    <!-- Audio element oculto -->
-    <audio id="audioPlayer" preload="none" crossorigin="anonymous">
-        <source src="https://sonic.dattassd.com/8132/stream" type="audio/mpeg">
-    </audio>
+    <audio id="audioPlayer" preload="none" crossorigin="anonymous"></audio>
 
     <script>
         // ==========================================
-        // 🎵 CONFIGURACIÓN DEL STREAM
+        // 📦 CONFIGURACIÓN DEL STREAM
         // ==========================================
-        const STREAM_CONFIG = {
-            url: 'https://sonic.dattassd.com/8132/stream',
-            metadataUrl: 'https://sonic.dattassd.com/cp/get_info.php?p=8132',
-            autoPlay: true,
-            metadataInterval: 15000, // 15 segundos
-            historyLimit: 10
-        };
+        const STREAM_URL = 'https://sonic.dattassd.com/8132/stream';
+        const METADATA_URL = 'https://sonic.dattassd.com/cp/get_info.php?p=8132';
+        const METADATA_INTERVAL = 15000; // 15 segundos
 
         // ==========================================
-        // 🎛️ ESTADO DEL REPRODUCTOR
+        // 📦 DATOS POR DEFECTO
         // ==========================================
-        const playerState = {
-            isPlaying: false,
-            isMuted: false,
-            volume: 0.8,
-            currentTrack: null,
-            history: [],
-            audioContext: null,
-            analyser: null,
-            dataArray: null,
-            animationId: null,
-            metadataInterval: null
+        const defaultData = {
+            site: { name: "TU RADIO", tagline: "Streaming Online", footerDesc: "Tu emisora online favorita transmitiendo las 24 horas del día.", footerBrand: "🎙️ TU RADIO" },
+            stream: { title: "Conectando...", artist: "Obteniendo metadatos...", cover: "", listeners: 0 },
+            socials: { facebook: "#", twitter: "#", instagram: "#", youtube: "#", tiktok: "#" },
+            contact: { email: "contacto@turadio.com", phone: "+1 (234) 567-890", address: "Av. Principal #123, Ciudad", whatsapp: "+1 (234) 567-890" },
+            slider: {
+                interval: 5,
+                slides: [
+                    { tag: "🎵 Música 24/7", title: "Tu Música Favorita Sin Parar", desc: "Disfruta de la mejor selección musical las 24 horas del día.", img: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=1400&h=600&fit=crop", btnText: "Escuchar Ahora", btnIcon: "fa-play", btnLink: "#" },
+                    { tag: "🎙️ En Vivo", title: "Los Mejores Locutores en Vivo", desc: "Conéctate con nuestros programas en vivo.", img: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1400&h=600&fit=crop", btnText: "Ver Programación", btnIcon: "fa-calendar", btnLink: "#programacion" },
+                    { tag: "🔥 Tendencias", title: "Lo Más Nuevo en Música", desc: "Mantente al día con los últimos lanzamientos.", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1400&h=600&fit=crop", btnText: "Ver Novedades", btnIcon: "fa-fire", btnLink: "#noticias" },
+                    { tag: "🎤 Entrevistas", title: "Entrevistas Exclusivas", desc: "Conoce de cerca a tus artistas favoritos.", img: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=1400&h=600&fit=crop", btnText: "Ver Videos", btnIcon: "fa-play-circle", btnLink: "#videos" },
+                    { tag: "🌎 Comunidad", title: "Únete a Nuestra Comunidad", desc: "Miles de oyentes ya forman parte de nuestra familia.", img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1400&h=600&fit=crop", btnText: "Únete Ahora", btnIcon: "fa-users", btnLink: "#" }
+                ]
+            },
+            locutores: [
+                { nombre: "Carlos Mendoza", rol: "Director & Locutor Principal", desc: "15 años de experiencia en radio. Especialista en música rock y alternativa.", imagen: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=600&fit=crop&crop=face", badge: "⭐ Director", badgeClass: "", exp: "15", oyentes: "5.2K", programas: "120", icono: "fa-microphone-alt", socials: { fb: "#", tw: "#", ig: "#", tk: "#" } },
+                { nombre: "María López", rol: "Locutora & Presentadora", desc: "Voz icónica de la mañana. Experta en pop, reggaetón y tendencias musicales.", imagen: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&h=600&fit=crop&crop=face", badge: "🔴 AL AIRE", badgeClass: "on-air", exp: "8", oyentes: "7.8K", programas: "200", icono: "fa-headphones", socials: { fb: "#", tw: "#", ig: "#", tk: "#" } },
+                { nombre: "Roberto Sánchez", rol: "DJ & Productor Musical", desc: "Productor y DJ con más de 10 años creando las mejores mezclas.", imagen: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&h=600&fit=crop&crop=face", badge: "🎧 DJ", badgeClass: "", exp: "10", oyentes: "4.5K", programas: "350", icono: "fa-music", socials: { fb: "#", tw: "#", ig: "#", sp: "#" } },
+                { nombre: "Ana Torres", rol: "Locutora & Periodista", desc: "Periodista musical especializada en entrevistas y cobertura de eventos.", imagen: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&h=600&fit=crop&crop=face", badge: "📰 Periodista", badgeClass: "", exp: "6", oyentes: "3.9K", programas: "85", icono: "fa-newspaper", socials: { fb: "#", tw: "#", ig: "#", yt: "#" } }
+            ],
+            noticias: {
+                title: "Noticias Destacadas",
+                desc: "Mantente informado con las últimas novedades.",
+                items: [
+                    { titulo: "Nuevo Álbum de Artista Destacado", desc: "El esperado álbum ya está disponible.", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=400&fit=crop", tag: "Música", time: "Hace 2 horas", views: "1.2K" },
+                    { titulo: "Festival de Música 2026", desc: "Prepárate para el evento musical más grande del año.", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&h=400&fit=crop", tag: "Evento", time: "Hace 5 horas", views: "3.4K" },
+                    { titulo: "Entrevista con DJ Top", desc: "Conversamos con uno de los DJs más influyentes.", img: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=600&h=400&fit=crop", tag: "Entrevista", time: "Hace 1 día", views: "5.1K" }
+                ]
+            },
+            videos: {
+                title: "Videos Destacados",
+                items: [
+                    { titulo: "Entrevista Exclusiva", views: "15.2K vistas", img: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&h=400&fit=crop", duration: "12:34" },
+                    { titulo: "Live Session - DJ Mix", views: "8.7K vistas", img: "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=600&h=400&fit=crop", duration: "25:10" },
+                    { titulo: "Festival de Verano 2026", views: "22.1K vistas", img: "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=600&h=400&fit=crop", duration: "18:45" }
+                ]
+            },
+            galeria: {
+                title: "Galería Destacada",
+                items: [
+                    { titulo: "Nuestro Estudio Principal", desc: "Equipamiento de última generación.", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=400&fit=crop", tag: "Estudio" },
+                    { titulo: "Eventos en Vivo", desc: "Cobertura completa de eventos.", img: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&h=400&fit=crop", tag: "Eventos" },
+                    { titulo: "Detrás de Cámaras", desc: "Descubre cómo se produce tu programa.", img: "https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=600&h=400&fit=crop", tag: "Behind" }
+                ]
+            },
+            historial: [
+                { titulo: "Bad Bunny - Monaco", album: "Nadie Sabe...", tiempo: "Hace 5 min" },
+                { titulo: "Taylor Swift - Cruel Summer", album: "Lover", tiempo: "Hace 12 min" },
+                { titulo: "The Weeknd - Blinding Lights", album: "After Hours", tiempo: "Hace 18 min" },
+                { titulo: "Karol G - TQG ft. Shakira", album: "Mañana Será Bonito", tiempo: "Hace 25 min" }
+            ],
+            programacion: {
+                lunes: [
+                    { hInicio: 6, hFin: 7, nombre: "Madrugada Musical", locutor: "Auto DJ", desc: "Música suave", icono: "fa-cloud-sun" },
+                    { hInicio: 7, hFin: 8, nombre: "Despertar Activo", locutor: "María López", desc: "Energía para comenzar", icono: "fa-sun" },
+                    { hInicio: 8, hFin: 9, nombre: "Noticias Matutinas", locutor: "Ana Torres", desc: "Noticias importantes", icono: "fa-newspaper" },
+                    { hInicio: 9, hFin: 10, nombre: "Café Musical", locutor: "Roberto Sánchez", desc: "Clásicos para tu café", icono: "fa-mug-hot" },
+                    { hInicio: 10, hFin: 11, nombre: "Hits de la Mañana", locutor: "Carlos Mendoza", desc: "Éxitos más sonados", icono: "fa-headphones" },
+                    { hInicio: 11, hFin: 12, nombre: "Música sin Parar", locutor: "Auto DJ", desc: "Selección variada", icono: "fa-music" },
+                    { hInicio: 12, hFin: 13, nombre: "Mediodía Informativo", locutor: "Ana Torres", desc: "Resumen informativo", icono: "fa-globe" },
+                    { hInicio: 13, hFin: 14, nombre: "Hora del Almuerzo", locutor: "María López", desc: "Música para el almuerzo", icono: "fa-utensils" },
+                    { hInicio: 14, hFin: 15, nombre: "Tarde Fresca", locutor: "Roberto Sánchez", desc: "Música fresca", icono: "fa-leaf" },
+                    { hInicio: 15, hFin: 16, nombre: "Pop & Hits", locutor: "Carlos Mendoza", desc: "Hits del pop actual", icono: "fa-star" },
+                    { hInicio: 16, hFin: 17, nombre: "Reggaetón Hour", locutor: "María López", desc: "Lo más caliente", icono: "fa-fire" },
+                    { hInicio: 17, hFin: 18, nombre: "Hora Pico", locutor: "Carlos Mendoza", desc: "Música para el camino", icono: "fa-car" },
+                    { hInicio: 18, hFin: 19, nombre: "Deportes al Aire", locutor: "Ana Torres", desc: "Resumen deportivo", icono: "fa-futbol" },
+                    { hInicio: 19, hFin: 21, nombre: "Noche de Clásicos", locutor: "Roberto Sánchez", desc: "Rock y pop 80s-00s", icono: "fa-moon" },
+                    { hInicio: 21, hFin: 0, nombre: "Electro Night", locutor: "Roberto Sánchez", desc: "Electrónica y house", icono: "fa-bolt" }
+                ]
+            }
         };
 
-        // ==========================================
-        // 🎨 ELEMENTOS DEL DOM
-        // ==========================================
-        const elements = {
-            audio: document.getElementById('audioPlayer'),
-            canvas: document.getElementById('waveformCanvas'),
-            ctx: document.getElementById('waveformCanvas').getContext('2d'),
-            playBtn: document.getElementById('btnPlay'),
-            playIcon: document.getElementById('playIcon'),
-            art: document.getElementById('playerArt'),
-            title: document.getElementById('trackTitle'),
-            artist: document.getElementById('trackArtist'),
-            progressBar: document.getElementById('progressBar'),
-            progressFill: document.getElementById('progressFill'),
-            currentTime: document.getElementById('currentTime'),
-            totalTime: document.getElementById('totalTime'),
-            volumeSlider: document.getElementById('volumeSlider'),
-            volumeIcon: document.getElementById('volumeIcon'),
-            btnMute: document.getElementById('btnMute'),
-            historyToggle: document.getElementById('historyToggle'),
-            historyPanel: document.getElementById('historyPanel'),
-            historyList: document.getElementById('historyList'),
-            clearHistory: document.getElementById('clearHistory'),
-            listenerCount: document.getElementById('listenerCount'),
-            connectionStatus: document.getElementById('connectionStatus'),
-            btnShuffle: document.getElementById('btnShuffle'),
-            btnRepeat: document.getElementById('btnRepeat'),
-            btnHeart: document.getElementById('btnHeart'),
-            btnShare: document.getElementById('btnShare'),
-            btnFullscreen: document.getElementById('btnFullscreen'),
-            startStreamBtn: document.getElementById('startStream')
-        };
+        // Cargar datos
+        let appData;
+        try {
+            const saved = localStorage.getItem('radioData');
+            appData = saved ? deepMerge(JSON.parse(JSON.stringify(defaultData)), JSON.parse(saved)) : JSON.parse(JSON.stringify(defaultData));
+        } catch(e) { appData = JSON.parse(JSON.stringify(defaultData)); }
+
+        function deepMerge(target, source) {
+            for (const key in source) {
+                if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+                    if (!target[key]) target[key] = {};
+                    deepMerge(target[key], source[key]);
+                } else { target[key] = source[key]; }
+            }
+            return target;
+        }
 
         // ==========================================
-        // 🎵 INICIALIZAR WEB AUDIO API PARA ONDAS
+        // 🎨 RENDERIZAR TODO
         // ==========================================
+        function renderAll() {
+            // Site
+            document.getElementById('siteName').textContent = appData.site.name;
+            document.getElementById('siteTagline').textContent = appData.site.tagline;
+            document.getElementById('footerBrandName').textContent = appData.site.footerBrand;
+            document.getElementById('footerDesc').textContent = appData.site.footerDesc;
+            document.getElementById('footerLink').textContent = appData.site.name;
+            document.title = appData.site.name + ' - ' + appData.site.tagline;
+
+            // Socials
+            const socialIcons = [
+                { key: 'facebook', icon: 'fab fa-facebook-f' },
+                { key: 'twitter', icon: 'fab fa-twitter' },
+                { key: 'instagram', icon: 'fab fa-instagram' },
+                { key: 'youtube', icon: 'fab fa-youtube' },
+                { key: 'tiktok', icon: 'fab fa-tiktok' }
+            ];
+            let socialHtml = '';
+            socialIcons.forEach(soc => {
+                if (appData.socials[soc.key] && appData.socials[soc.key] !== '#') {
+                    socialHtml += `<a href="${appData.socials[soc.key]}" target="_blank"><i class="${soc.icon}"></i></a>`;
+                }
+            });
+            document.getElementById('headerSocials').innerHTML = socialHtml;
+            document.getElementById('footerSocials').innerHTML = socialHtml;
+
+            // Contact
+            const c = appData.contact;
+            document.getElementById('headerContactInfo').innerHTML = `<a href="mailto:${c.email}"><i class="fas fa-envelope"></i> ${c.email}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="tel:${c.phone}"><i class="fas fa-phone"></i> ${c.phone}</a>`;
+            document.getElementById('footerContactInfo').innerHTML = `
+                <div class="contact-item"><i class="fas fa-map-marker-alt"></i><div class="info"><span>Dirección</span><p>${c.address}</p></div></div>
+                <div class="contact-item"><i class="fas fa-phone"></i><div class="info"><span>Teléfono</span><a href="tel:${c.phone}">${c.phone}</a></div></div>
+                <div class="contact-item"><i class="fas fa-envelope"></i><div class="info"><span>Email</span><a href="mailto:${c.email}">${c.email}</a></div></div>
+                <div class="contact-item"><i class="fab fa-whatsapp"></i><div class="info"><span>WhatsApp</span><a href="https://wa.me/${c.whatsapp.replace(/[^0-9]/g,'')}">${c.whatsapp}</a></div></div>`;
+
+            // Slider
+            const container = document.getElementById('sliderContainer');
+            const dotsContainer = document.getElementById('sliderDots');
+            let slidesHtml = '', dotsHtml = '';
+            appData.slider.slides.forEach((slide, i) => {
+                slidesHtml += `<div class="slide ${i===0?'active':''}"><img src="${slide.img}" alt="${slide.title}"><div class="slide-overlay"></div><div class="slide-content"><span class="slide-tag">${slide.tag}</span><h2>${slide.title}</h2><p>${slide.desc}</p><a href="${slide.btnLink}" class="slide-btn"><i class="fas ${slide.btnIcon}"></i> ${slide.btnText}</a></div></div>`;
+                dotsHtml += `<div class="slider-dot ${i===0?'active':''}" data-slide="${i}"></div>`;
+            });
+            container.innerHTML = slidesHtml;
+            dotsContainer.innerHTML = dotsHtml;
+            dotsContainer.querySelectorAll('.slider-dot').forEach(d => {
+                d.addEventListener('click', () => { currentSlide = parseInt(d.dataset.slide); showSlide(currentSlide); resetProgress(); });
+            });
+            totalSlides = appData.slider.slides.length;
+
+            // Locutores
+            const locGrid = document.getElementById('locutoresGrid');
+            let locHtml = '';
+            appData.locutores.forEach(loc => {
+                let locSocialHtml = '';
+                if (loc.socials.fb && loc.socials.fb !== '#') locSocialHtml += `<a href="${loc.socials.fb}"><i class="fab fa-facebook-f"></i></a>`;
+                if (loc.socials.tw && loc.socials.tw !== '#') locSocialHtml += `<a href="${loc.socials.tw}"><i class="fab fa-twitter"></i></a>`;
+                if (loc.socials.ig && loc.socials.ig !== '#') locSocialHtml += `<a href="${loc.socials.ig}"><i class="fab fa-instagram"></i></a>`;
+                if (loc.socials.tk && loc.socials.tk !== '#') locSocialHtml += `<a href="${loc.socials.tk}"><i class="fab fa-tiktok"></i></a>`;
+                if (loc.socials.yt && loc.socials.yt !== '#') locSocialHtml += `<a href="${loc.socials.yt}"><i class="fab fa-youtube"></i></a>`;
+                if (loc.socials.sp && loc.socials.sp !== '#') locSocialHtml += `<a href="${loc.socials.sp}"><i class="fab fa-spotify"></i></a>`;
+                locHtml += `<div class="locutor-card"><div class="locutor-image"><img src="${loc.imagen}" alt="${loc.nombre}"><div class="locutor-overlay"></div><span class="locutor-badge ${loc.badgeClass}">${loc.badge}</span><div class="locutor-mic-icon"><i class="fas ${loc.icono}"></i></div></div><div class="locutor-body"><h3>${loc.nombre}</h3><div class="role">${loc.rol}</div><p>${loc.desc}</p><div class="locutor-stats"><div class="locutor-stat"><div class="number">${loc.exp}</div><div class="label">Años Exp.</div></div><div class="locutor-stat"><div class="number">${loc.oyentes}</div><div class="label">Oyentes</div></div><div class="locutor-stat"><div class="number">${loc.programas}</div><div class="label">Programas</div></div></div><div class="locutor-socials">${locSocialHtml}</div></div></div>`;
+            });
+            locGrid.innerHTML = locHtml;
+
+            // Noticias
+            document.getElementById('newsTitle').innerHTML = appData.noticias.title;
+            document.getElementById('newsDesc').textContent = appData.noticias.desc;
+            const newsGrid = document.getElementById('newsGrid');
+            let newsHtml = '';
+            appData.noticias.items.forEach(n => {
+                newsHtml += `<div class="card"><div class="card-image"><img src="${n.img}" alt="${n.titulo}"><span class="card-tag">${n.tag}</span></div><div class="card-body"><h3>${n.titulo}</h3><p>${n.desc}</p><div class="card-meta"><span><i class="fas fa-clock"></i> ${n.time}</span><span><i class="fas fa-eye"></i> ${n.views}</span></div></div></div>`;
+            });
+            newsGrid.innerHTML = newsHtml;
+
+            // Videos
+            document.getElementById('vidTitle').innerHTML = appData.videos.title;
+            const vidGrid = document.getElementById('videosGrid');
+            let vidHtml = '';
+            appData.videos.items.forEach(v => {
+                vidHtml += `<div class="video-card"><div class="video-thumbnail"><img src="${v.img}" alt="${v.titulo}"><div class="play-btn"><i class="fas fa-play"></i></div><span class="video-duration">${v.duration}</span></div><div class="video-info"><h3>${v.titulo}</h3><p><i class="fas fa-eye"></i> ${v.views}</p></div></div>`;
+            });
+            vidGrid.innerHTML = vidHtml;
+
+            // Galería
+            document.getElementById('galTitle').innerHTML = appData.galeria.title;
+            const galGrid = document.getElementById('galleryGrid');
+            let galHtml = '';
+            appData.galeria.items.forEach(g => {
+                galHtml += `<div class="card"><div class="card-image"><img src="${g.img}" alt="${g.titulo}"><span class="card-tag">${g.tag}</span></div><div class="card-body"><h3>${g.titulo}</h3><p>${g.desc}</p></div></div>`;
+            });
+            galGrid.innerHTML = galHtml;
+
+            // Historial de la página
+            const histContainer = document.getElementById('historialTimeline');
+            let histHtml = '';
+            appData.historial.forEach(h => {
+                histHtml += `<div class="news-item"><div class="date">${h.tiempo}</div><h3>🎵 ${h.titulo}</h3><p>Álbum: ${h.album}</p></div>`;
+            });
+            histContainer.innerHTML = histHtml;
+
+            renderProgramacion();
+        }
+
+        // ==========================================
+        // 📅 PROGRAMACIÓN AUTO-ACTUALIZABLE
+        // ==========================================
+        const diasSemana = ['domingo','lunes','martes','miercoles','jueves','viernes','sabado'];
+        const diasSemanaNombre = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+        const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+        function getCurrentMinutes() { return new Date().getHours()*60 + new Date().getMinutes(); }
+        function getCurrentProgram() {
+            const now = new Date();
+            const dayName = diasSemana[now.getDay()];
+            const cm = getCurrentMinutes();
+            const programs = appData.programacion[dayName];
+            if (!programs) return null;
+            for (let i = 0; i < programs.length; i++) {
+                const p = programs[i];
+                const start = p.hInicio*60;
+                const end = p.hFin===0 ? 24*60 : p.hFin*60;
+                if (cm >= start && cm < end) return { program: p, index: i, programs };
+            }
+            return null;
+        }
+        function formatHour12(h) {
+            if (h===0) return '12:00 AM'; if (h===12) return '12:00 PM';
+            return h < 12 ? `${h}:00 AM` : `${h-12}:00 PM`;
+        }
+        function getTimeRemaining(endHour) {
+            const cm = getCurrentMinutes();
+            const end = endHour===0 ? 24*60 : endHour*60;
+            const rem = end - cm;
+            const hrs = Math.floor(rem/60), mins = rem%60;
+            return hrs > 0 ? `${hrs}h ${mins}m restantes` : `${mins}m restantes`;
+        }
+        function renderProgramacion() {
+            const now = new Date();
+            const cm = getCurrentMinutes();
+            const current = getCurrentProgram();
+            const programs = current ? current.programs : appData.programacion[diasSemana[now.getDay()]];
+            const container = document.getElementById('programacionList');
+            let html = '';
+            if (programs) {
+                programs.forEach((prog, idx) => {
+                    const end = prog.hFin===0 ? 24*60 : prog.hFin*60;
+                    let sc='', badge='';
+                    if (current && current.index === idx) { sc='is-live'; badge='<span class="prog-status-badge live"><i class="fas fa-circle"></i> AL AIRE</span>'; }
+                    else if (cm >= end) { sc='is-past'; badge='<span class="prog-status-badge past">Finalizado</span>'; }
+                    else { sc='is-upcoming'; badge='<span class="prog-status-badge upcoming">Próximo</span>'; }
+                    html += `<div class="programacion-item ${sc}"><div class="prog-time"><div class="hour">${formatHour12(prog.hInicio)}</div></div><div class="prog-info"><h4><i class="fas ${prog.icono}" style="color:var(--primary-light);margin-right:8px;"></i>${prog.nombre}</h4><p>Con ${prog.locutor} — ${prog.desc}</p></div>${badge}</div>`;
+                });
+            }
+            container.innerHTML = html;
+            if (current) {
+                document.getElementById('currentProgName').textContent = current.program.nombre;
+                document.getElementById('currentProgDesc').textContent = `Con ${current.program.locutor} — ${current.program.desc}`;
+                document.getElementById('progTimeRemaining').querySelector('span').textContent = getTimeRemaining(current.program.hFin);
+            } else {
+                document.getElementById('currentProgName').textContent = 'Fuera de programación';
+                document.getElementById('currentProgDesc').textContent = 'Música automática en reproducción.';
+                document.getElementById('progTimeRemaining').querySelector('span').textContent = 'Sin horario';
+            }
+        }
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clockTime').textContent = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+            document.getElementById('clockDate').textContent = `${now.getDate()} de ${meses[now.getMonth()]} de ${now.getFullYear()}`;
+            document.getElementById('clockDay').textContent = diasSemanaNombre[now.getDay()];
+        }
+        function initProgramacion() { updateClock(); renderProgramacion(); setInterval(updateClock, 1000); setInterval(renderProgramacion, 60000); }
+
+        // ==========================================
+        // 🎠 SLIDER
+        // ==========================================
+        let currentSlide = 0, sliderInterval, progressInterval, totalSlides = 5;
+        function showSlide(idx) {
+            document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.slider-dot').forEach(d => d.classList.remove('active'));
+            currentSlide = idx < 0 ? totalSlides-1 : idx >= totalSlides ? 0 : idx;
+            const slides = document.querySelectorAll('.slide'), dots = document.querySelectorAll('.slider-dot');
+            if (slides[currentSlide]) slides[currentSlide].classList.add('active');
+            if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+        }
+        function resetProgress() {
+            document.getElementById('sliderProgress').style.width = '0%';
+            clearInterval(sliderInterval); clearInterval(progressInterval);
+            let el = 0;
+            const dur = appData.slider.interval * 1000;
+            progressInterval = setInterval(() => { el += 50; document.getElementById('sliderProgress').style.width = (el/dur*100) + '%'; if (el >= dur) clearInterval(progressInterval); }, 50);
+            sliderInterval = setInterval(() => { showSlide(currentSlide+1); resetProgress(); }, dur);
+        }
+        document.getElementById('nextSlide').addEventListener('click', () => { showSlide(currentSlide+1); resetProgress(); });
+        document.getElementById('prevSlide').addEventListener('click', () => { showSlide(currentSlide-1); resetProgress(); });
+
+        // ==========================================
+        // 🎵 REPRODUCTOR MODERNO CON VISUALIZADOR
+        // ==========================================
+        const audioEl = document.getElementById('audioPlayer');
+        const btnPlay = document.getElementById('btnPlay');
+        const playIcon = document.getElementById('playIcon');
+        const playerArtwork = document.getElementById('playerArtwork');
+        const trackTitle = document.getElementById('trackTitle');
+        const trackArtist = document.getElementById('trackArtist');
+        const listenerCount = document.getElementById('listenerCount');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeIcon = document.getElementById('volumeIcon');
+        const btnMute = document.getElementById('btnMute');
+        const historyToggle = document.getElementById('historyToggle');
+        const playerHistory = document.getElementById('playerHistory');
+        const historyList = document.getElementById('historyList');
+        const clearHistory = document.getElementById('clearHistory');
+
+        let isPlaying = false;
+        let isMuted = false;
+        let audioContext, analyser, source, dataArray, bufferLength;
+        let animationId;
+        let metadataInterval;
+        let playbackHistory = [];
+        const MAX_HISTORY = 10;
+
+        // Inicializar Web Audio API para visualizador
         function initAudioContext() {
-            if (playerState.audioContext) return;
-            
             try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                playerState.audioContext = new AudioContext();
-                
-                playerState.analyser = playerState.audioContext.createAnalyser();
-                playerState.analyser.fftSize = 256;
-                playerState.analyser.smoothingTimeConstant = 0.8;
-                
-                const source = playerState.audioContext.createMediaElementSource(elements.audio);
-                source.connect(playerState.analyser);
-                playerState.analyser.connect(playerState.audioContext.destination);
-                
-                playerState.dataArray = new Uint8Array(playerState.analyser.frequencyBinCount);
-                
-                console.log('✅ Web Audio API inicializado');
-            } catch (e) {
-                console.warn('⚠️ Web Audio API no disponible:', e);
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                bufferLength = analyser.frequencyBinCount;
+                dataArray = new Uint8Array(bufferLength);
+
+                source = audioContext.createMediaElementSource(audioEl);
+                source.connect(analyser);
+                analyser.connect(audioContext.destination);
+            } catch(e) {
+                console.log('Web Audio API no disponible:', e);
             }
         }
 
-        // ==========================================
-        // 🌊 DIBUJAR ONDAS DE AUDIO EN CANVAS
-        // ==========================================
-        function drawWaveform() {
-            if (!playerState.analyser || !playerState.isPlaying) {
-                elements.ctx.clearRect(0, 0, elements.canvas.width, elements.canvas.height);
-                playerState.animationId = requestAnimationFrame(drawWaveform);
-                return;
+        // Dibujar visualizador de ondas
+        function drawVisualizer() {
+            const canvas = document.getElementById('visualizerCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Ajustar tamaño del canvas
+            canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+            canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const width = canvas.offsetWidth;
+            const height = canvas.offsetHeight;
+
+            if (analyser && isPlaying) {
+                analyser.getByteFrequencyData(dataArray);
+                
+                // Limpiar canvas
+                ctx.clearRect(0, 0, width, height);
+
+                // Crear gradiente para las barras
+                const gradient = ctx.createLinearGradient(0, height, 0, 0);
+                gradient.addColorStop(0, 'rgba(108, 43, 217, 0.3)');
+                gradient.addColorStop(0.5, 'rgba(139, 92, 246, 0.6)');
+                gradient.addColorStop(1, 'rgba(236, 72, 153, 0.9)');
+
+                const barWidth = (width / bufferLength) * 2.5;
+                let x = 0;
+
+                for (let i = 0; i < bufferLength; i++) {
+                    const barHeight = (dataArray[i] / 255) * height * 0.8;
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(x, height - barHeight, barWidth - 2, barHeight);
+                    
+                    // Efecto de brillo en la parte superior de cada barra
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                    ctx.fillRect(x, height - barHeight, barWidth - 2, 3);
+                    
+                    x += barWidth;
+                }
+
+                // Efecto de onda suave adicional
+                ctx.beginPath();
+                ctx.moveTo(0, height/2);
+                for (let i = 0; i < bufferLength; i++) {
+                    const v = dataArray[i] / 128;
+                    const y = height/2 + Math.sin(i * 0.1 + Date.now() * 0.003) * v * 10;
+                    ctx.lineTo(i * (width / bufferLength), y);
+                }
+                ctx.strokeStyle = 'rgba(236, 72, 153, 0.4)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            } else {
+                // Animación de reposo
+                ctx.clearRect(0, 0, width, height);
+                const time = Date.now() * 0.002;
+                ctx.beginPath();
+                for (let i = 0; i < width; i++) {
+                    const y = height/2 + Math.sin(i * 0.05 + time) * 10;
+                    if (i === 0) ctx.moveTo(i, y);
+                    else ctx.lineTo(i, y);
+                }
+                ctx.strokeStyle = 'rgba(139, 92, 246, 0.3)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
             }
 
-            const canvas = elements.canvas;
-            const ctx = elements.ctx;
-            const width = canvas.width;
-            const height = canvas.height;
-            
-            playerState.analyser.getByteFrequencyData(playerState.dataArray);
-            
-            // Limpiar canvas con fade effect
-            ctx.fillStyle = 'rgba(15, 15, 26, 0.1)';
-            ctx.fillRect(0, 0, width, height);
-            
-            // Dibujar ondas
-            const barWidth = (width / playerState.dataArray.length) * 2.5;
-            let x = 0;
-            
-            for (let i = 0; i < playerState.dataArray.length; i++) {
-                const barHeight = (playerState.dataArray[i] / 255) * height * 0.8;
-                const hue = (i / playerState.dataArray.length) * 60 + 240; // Morado a rosa
-                
-                // Gradiente para cada barra
-                const gradient = ctx.createLinearGradient(0, height - barHeight, 0, height);
-                gradient.addColorStop(0, `hsla(${hue}, 100%, 60%, 0.9)`);
-                gradient.addColorStop(1, `hsla(${hue + 30}, 100%, 50%, 0.6)`);
-                
-                ctx.fillStyle = gradient;
-                ctx.fillRect(x, height - barHeight, barWidth - 1, barHeight);
-                
-                // Reflejo inferior
-                ctx.fillStyle = `hsla(${hue}, 100%, 60%, 0.2)`;
-                ctx.fillRect(x, height, barWidth - 1, -barHeight * 0.3);
-                
-                x += barWidth;
-            }
-            
-            playerState.animationId = requestAnimationFrame(drawWaveform);
+            animationId = requestAnimationFrame(drawVisualizer);
         }
 
-        // ==========================================
-        // 📡 OBTENER METADATOS DEL STREAM
-        // ==========================================
+        // Fetch de metadatos
         async function fetchMetadata() {
             try {
-                // Nota: La API puede requerir CORS. Si falla, usamos fallback
-                const response = await fetch(STREAM_CONFIG.metadataUrl, {
-                    mode: 'cors',
+                // Intentar con CORS proxy si es necesario
+                const response = await fetch(METADATA_URL, {
+                    method: 'GET',
                     headers: { 'Accept': 'application/json' }
                 });
                 
-                if (!response.ok) throw new Error('HTTP ' + response.status);
-                
-                const data = await response.json();
-                updateTrackInfo(data);
-                updateConnectionStatus(true);
-                
-            } catch (error) {
-                console.warn('⚠️ No se pudo obtener metadata:', error);
-                // Fallback: mostrar info genérica
-                if (!playerState.currentTrack) {
-                    updateTrackInfo({ 
-                        title: 'En Vivo', 
-                        artist: 'TU RADIO', 
-                        listeners: Math.floor(Math.random() * 500) + 100 
-                    });
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Adaptar según la estructura de la respuesta de Centova Cast
+                    const title = data.song_title || data.title || data.track || 'Reproduciendo...';
+                    const artist = data.artist || data.album || '';
+                    const listeners = data.listeners || data.current_listeners || 0;
+                    const cover = data.art || data.album_art || '';
+
+                    // Actualizar UI
+                    trackTitle.textContent = title;
+                    trackArtist.textContent = artist || 'Radio en vivo';
+                    listenerCount.textContent = listeners.toLocaleString();
+
+                    // Actualizar artwork
+                    if (cover) {
+                        playerArtwork.innerHTML = `<img src="${cover}" alt="Cover" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-music\\'></i>'">`;
+                    }
+
+                    // Agregar al historial si cambió la canción
+                    addToHistory(title, artist, cover);
+
                 }
-                updateConnectionStatus(false);
-            }
-        }
-
-        function updateTrackInfo(data) {
-            const title = data.title || data.stream_title || 'En Vivo';
-            const artist = data.artist || data.song || 'TU RADIO';
-            const listeners = data.listeners || data.current_listeners || '--';
-            
-            // Solo actualizar si cambió
-            if (playerState.currentTrack?.title !== title || playerState.currentTrack?.artist !== artist) {
-                // Agregar al historial si es diferente al actual
-                if (playerState.currentTrack && playerState.currentTrack.title !== title) {
-                    addToHistory(playerState.currentTrack);
+            } catch(error) {
+                console.log('Error fetching metadata:', error);
+                // Fallback: mostrar mensaje genérico
+                if (trackTitle.textContent === 'Conectando...') {
+                    trackTitle.textContent = 'Radio en vivo';
+                    trackArtist.textContent = 'Escuchando...';
                 }
-                
-                // Actualizar UI
-                elements.title.textContent = title.length > 35 ? title.substring(0, 32) + '...' : title;
-                elements.artist.textContent = artist;
-                elements.listenerCount.textContent = listeners !== '--' ? listeners.toLocaleString() : '--';
-                
-                // Actualizar arte (placeholder con gradiente)
-                updateArtPlaceholder(title);
-                
-                // Guardar track actual
-                playerState.currentTrack = { title, artist, time: new Date().toLocaleTimeString() };
-                
-                console.log('🎵 Track actualizado:', title, '-', artist);
             }
         }
 
-        function updateArtPlaceholder(title) {
-            // Generar color basado en el título
-            const hash = title.split('').reduce((a, b) => {
-                a = ((a << 5) - a) + b.charCodeAt(0);
-                return a & a;
-            }, 0);
-            const hue = Math.abs(hash) % 360;
-            
-            elements.art.style.background = `linear-gradient(135deg, hsl(${hue}, 70%, 50%), hsl(${hue + 40}, 70%, 40%))`;
-            elements.art.innerHTML = '<i class="fas fa-music"></i>';
-        }
+        // Agregar al historial de reproducción
+        function addToHistory(title, artist, cover) {
+            // Verificar si ya está en el historial reciente
+            const exists = playbackHistory.some(h => h.title === title && h.artist === artist);
+            if (exists) return;
 
-        function updateConnectionStatus(connected) {
-            const status = elements.connectionStatus;
-            if (connected) {
-                status.className = 'connection-status';
-                status.innerHTML = '<span class="dot"></span> Conectado';
-            } else {
-                status.className = 'connection-status error';
-                status.innerHTML = '<span class="dot"></span> Reintentando';
-            }
-        }
-
-        // ==========================================
-        // 📜 GESTIÓN DEL HISTORIAL
-        // ==========================================
-        function addToHistory(track) {
-            if (!track || !track.title) return;
-            
-            // Evitar duplicados consecutivos
-            if (playerState.history[0]?.title === track.title) return;
-            
-            playerState.history.unshift({
-                ...track,
+            const item = {
+                title: title,
+                artist: artist || 'Artista desconocido',
+                cover: cover,
+                time: new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
                 id: Date.now()
-            });
-            
-            // Limitar historial
-            if (playerState.history.length > STREAM_CONFIG.historyLimit) {
-                playerState.history.pop();
+            };
+
+            playbackHistory.unshift(item);
+            if (playbackHistory.length > MAX_HISTORY) {
+                playbackHistory.pop();
             }
-            
+
             renderHistory();
-            saveHistory();
         }
 
+        // Renderizar historial
         function renderHistory() {
-            if (playerState.history.length === 0) {
-                elements.historyList.innerHTML = '<p style="color:var(--text-muted); font-size:0.8rem; text-align:center; padding:10px;">Sin historial aún</p>';
+            if (playbackHistory.length === 0) {
+                historyList.innerHTML = '<p style="color:var(--text-muted);font-size:0.8rem;text-align:center;padding:20px">Sin historial aún</p>';
                 return;
             }
-            
-            elements.historyList.innerHTML = playerState.history.map((item, index) => `
-                <div class="history-item ${index === 0 ? 'current' : ''}" data-id="${item.id}">
-                    <div class="art">
-                        <i class="fas fa-music"></i>
-                    </div>
+
+            let html = '';
+            playbackHistory.forEach((item, index) => {
+                const isCurrent = index === 0;
+                const artwork = item.cover ? `<img src="${item.cover}" alt="">` : '<i class="fas fa-music"></i>';
+                
+                html += `
+                <div class="history-item ${isCurrent ? 'current' : ''}" data-id="${item.id}">
+                    <div class="mini-art">${artwork}</div>
                     <div class="info">
-                        <div class="title">${escapeHtml(item.title)}</div>
-                        <div class="artist">${escapeHtml(item.artist)}</div>
+                        <div class="title">${item.title}</div>
+                        <div class="artist">${item.artist}</div>
                     </div>
                     <div class="time">${item.time}</div>
-                </div>
-            `).join('');
-            
-            // Agregar eventos de click
-            elements.historyList.querySelectorAll('.history-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    const id = parseInt(item.dataset.id);
-                    const track = playerState.history.find(t => t.id === id);
-                    if (track) {
-                        // Aquí podrías implementar buscar/reproducir ese track específico
-                        showToast(`🎵 ${track.title} - ${track.artist}`);
-                    }
+                </div>`;
+            });
+            historyList.innerHTML = html;
+
+            // Click en item del historial (solo visual)
+            historyList.querySelectorAll('.history-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    historyList.querySelectorAll('.history-item').forEach(i => i.classList.remove('current'));
+                    this.classList.add('current');
                 });
             });
         }
 
-        function saveHistory() {
-            try {
-                localStorage.setItem('radioHistory', JSON.stringify(playerState.history));
-            } catch (e) {
-                console.warn('No se pudo guardar historial:', e);
-            }
-        }
+        // Toggle historial
+        historyToggle.addEventListener('click', () => {
+            playerHistory.classList.toggle('show');
+            historyToggle.classList.toggle('active');
+        });
 
-        function loadHistory() {
-            try {
-                const saved = localStorage.getItem('radioHistory');
-                if (saved) {
-                    playerState.history = JSON.parse(saved);
-                    renderHistory();
-                }
-            } catch (e) {
-                console.warn('No se pudo cargar historial:', e);
+        // Cerrar historial al hacer click fuera
+        document.addEventListener('click', (e) => {
+            if (!playerHistory.contains(e.target) && !historyToggle.contains(e.target)) {
+                playerHistory.classList.remove('show');
+                historyToggle.classList.remove('active');
             }
-        }
+        });
 
-        function clearHistory() {
-            if (confirm('¿Limpiar todo el historial de reproducción?')) {
-                playerState.history = [];
+        // Limpiar historial
+        clearHistory.addEventListener('click', () => {
+            if (confirm('¿Limpiar historial de reproducción?')) {
+                playbackHistory = [];
                 renderHistory();
-                saveHistory();
-                showToast('🗑️ Historial limpiado');
             }
-        }
+        });
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // ==========================================
-        // 🎮 CONTROLES DEL REPRODUCTOR
-        // ==========================================
+        // Controles del reproductor
         function togglePlay() {
-            if (playerState.isPlaying) {
-                elements.audio.pause();
-                elements.playIcon.className = 'fas fa-play';
-                elements.art.classList.remove('playing');
-                elements.playBtn.classList.remove('playing');
-                playerState.isPlaying = false;
+            if (isPlaying) {
+                audioEl.pause();
+                btnPlay.classList.remove('playing');
+                if (animationId) cancelAnimationFrame(animationId);
+                isPlaying = false;
             } else {
-                // Iniciar AudioContext si es necesario (requiere interacción del usuario)
-                if (playerState.audioContext && playerState.audioContext.state === 'suspended') {
-                    playerState.audioContext.resume();
+                // Inicializar AudioContext al interactuar
+                if (!audioContext) initAudioContext();
+                if (audioContext && audioContext.state === 'suspended') {
+                    audioContext.resume();
                 }
                 
-                elements.audio.play().then(() => {
-                    elements.playIcon.className = 'fas fa-pause';
-                    elements.art.classList.add('playing');
-                    elements.playBtn.classList.add('playing');
-                    playerState.isPlaying = true;
+                audioEl.src = STREAM_URL;
+                audioEl.crossOrigin = 'anonymous';
+                
+                audioEl.play().then(() => {
+                    btnPlay.classList.add('playing');
+                    isPlaying = true;
+                    drawVisualizer();
                     
-                    // Iniciar animación de ondas si no está corriendo
-                    if (!playerState.animationId) {
-                        drawWaveform();
-                    }
+                    // Iniciar fetch de metadatos
+                    fetchMetadata();
+                    if (metadataInterval) clearInterval(metadataInterval);
+                    metadataInterval = setInterval(fetchMetadata, METADATA_INTERVAL);
+                    
                 }).catch(err => {
-                    console.error('❌ Error al reproducir:', err);
-                    showToast('⚠️ Haz clic para habilitar audio');
+                    console.log('Error al reproducir:', err);
+                    trackTitle.textContent = 'Error de conexión';
+                    trackArtist.textContent = 'Verifica tu conexión';
                 });
             }
         }
 
-        function setVolume(value) {
-            playerState.volume = value / 100;
-            elements.audio.volume = playerState.volume;
-            
-            // Actualizar ícono
-            if (value == 0) {
-                elements.volumeIcon.className = 'fas fa-volume-mute';
-            } else if (value < 50) {
-                elements.volumeIcon.className = 'fas fa-volume-down';
+        btnPlay.addEventListener('click', togglePlay);
+
+        // Volumen
+        audioEl.volume = 0.8;
+        volumeSlider.addEventListener('input', (e) => {
+            const vol = e.target.value / 100;
+            audioEl.volume = vol;
+            if (vol === 0) {
+                volumeIcon.className = 'fas fa-volume-mute';
+                isMuted = true;
+            } else if (vol < 0.5) {
+                volumeIcon.className = 'fas fa-volume-down';
+                isMuted = false;
             } else {
-                elements.volumeIcon.className = 'fas fa-volume-up';
+                volumeIcon.className = 'fas fa-volume-up';
+                isMuted = false;
             }
-        }
-
-        function toggleMute() {
-            playerState.isMuted = !playerState.isMuted;
-            elements.audio.muted = playerState.isMuted;
-            elements.volumeIcon.className = playerState.isMuted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
-            elements.volumeSlider.value = playerState.isMuted ? 0 : playerState.volume * 100;
-        }
-
-        function updateProgress() {
-            // Para streams en vivo, mostramos un progreso animado
-            if (playerState.isPlaying) {
-                const progress = (Date.now() % 10000) / 100; // Animación cíclica
-                elements.progressFill.style.width = progress + '%';
-                elements.currentTime.textContent = formatTime(Math.floor(Date.now() / 1000) % 3600);
-            }
-            requestAnimationFrame(updateProgress);
-        }
-
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${mins}:${secs.toString().padStart(2, '0')}`;
-        }
-
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed; bottom: 100px; right: 20px;
-                background: var(--gradient-1); color: white;
-                padding: 12px 20px; border-radius: 12px;
-                font-size: 0.85rem; font-weight: 600;
-                z-index: 10000; animation: fadeInUp 0.3s ease;
-                box-shadow: 0 10px 30px rgba(108, 43, 217, 0.4);
-            `;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateY(-10px)';
-                setTimeout(() => toast.remove(), 300);
-            }, 2500);
-        }
-
-        // ==========================================
-        // 🖼️ REDIMENSIONAR CANVAS
-        // ==========================================
-        function resizeCanvas() {
-            const rect = elements.canvas.parentElement.getBoundingClientRect();
-            elements.canvas.width = rect.width * window.devicePixelRatio;
-            elements.canvas.height = rect.height * window.devicePixelRatio;
-            elements.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-        }
-
-        // ==========================================
-        // 🎯 EVENT LISTENERS
-        // ==========================================
-        function setupEventListeners() {
-            // Play/Pause
-            elements.playBtn.addEventListener('click', togglePlay);
-            elements.startStreamBtn?.addEventListener('click', () => {
-                togglePlay();
-                elements.startStreamBtn?.scrollIntoView({ behavior: 'smooth' });
-            });
-
-            // Volumen
-            elements.volumeSlider.addEventListener('input', (e) => {
-                setVolume(e.target.value);
-                if (playerState.isMuted && e.target.value > 0) {
-                    playerState.isMuted = false;
-                    elements.audio.muted = false;
-                }
-            });
-            elements.btnMute.addEventListener('click', toggleMute);
-
-            // Barra de progreso (click para seek - limitado en streams)
-            elements.progressBar.addEventListener('click', (e) => {
-                const rect = elements.progressBar.getBoundingClientRect();
-                const percent = (e.clientX - rect.left) / rect.width;
-                // Para streams en vivo, esto no tiene efecto real, pero da feedback visual
-                elements.progressFill.style.width = (percent * 100) + '%';
-            });
-
-            // Historial
-            elements.historyToggle.addEventListener('click', () => {
-                elements.historyPanel.classList.toggle('active');
-                elements.historyToggle.classList.toggle('active');
-            });
-            elements.clearHistory.addEventListener('click', clearHistory);
-
-            // Extras
-            elements.btnShuffle.addEventListener('click', function() {
-                this.classList.toggle('active');
-                showToast(this.classList.contains('active') ? '🔀 Aleatorio activado' : '🔀 Aleatorio desactivado');
-            });
-            elements.btnRepeat.addEventListener('click', function() {
-                this.classList.toggle('active');
-                showToast(this.classList.contains('active') ? '🔁 Repetir activado' : '🔁 Repetir desactivado');
-            });
-            elements.btnHeart.addEventListener('click', function() {
-                this.querySelector('i').classList.toggle('fas');
-                this.querySelector('i').classList.toggle('far');
-                showToast(this.querySelector('i').classList.contains('fas') ? '❤️ Agregado a favoritos' : '🤍 Quitado de favoritos');
-            });
-            elements.btnShare.addEventListener('click', () => {
-                if (navigator.share) {
-                    navigator.share({
-                        title: document.title,
-                        text: 'Escuchando en vivo',
-                        url: window.location.href
-                    });
-                } else {
-                    navigator.clipboard.writeText(window.location.href);
-                    showToast('🔗 Enlace copiado');
-                }
-            });
-            elements.btnFullscreen.addEventListener('click', () => {
-                if (!document.fullscreenElement) {
-                    document.querySelector('.modern-player')?.requestFullscreen?.();
-                } else {
-                    document.exitFullscreen?.();
-                }
-            });
-
-            // Navegación móvil
-            const menuToggle = document.getElementById('menuToggle');
-            const navMenu = document.getElementById('navMenu');
-            menuToggle?.addEventListener('click', () => {
-                menuToggle.classList.toggle('active');
-                navMenu?.classList.toggle('open');
-            });
-
-            // Scroll header
-            window.addEventListener('scroll', () => {
-                document.querySelector('.header')?.classList.toggle('scrolled', window.scrollY > 50);
-            });
-
-            // Resize canvas
-            window.addEventListener('resize', resizeCanvas);
-
-            // Audio events
-            elements.audio.addEventListener('play', () => {
-                playerState.isPlaying = true;
-                elements.playIcon.className = 'fas fa-pause';
-                elements.art.classList.add('playing');
-                elements.playBtn.classList.add('playing');
-            });
-            elements.audio.addEventListener('pause', () => {
-                playerState.isPlaying = false;
-                elements.playIcon.className = 'fas fa-play';
-                elements.art.classList.remove('playing');
-                elements.playBtn.classList.remove('playing');
-            });
-            elements.audio.addEventListener('error', (e) => {
-                console.error('❌ Error de audio:', e);
-                updateConnectionStatus(false);
-                showToast('⚠️ Error de conexión al stream');
-            });
-        }
-
-        // ==========================================
-        // 🚀 INICIALIZACIÓN
-        // ==========================================
-        async function initPlayer() {
-            // Configurar canvas
-            resizeCanvas();
-            
-            // Configurar audio
-            elements.audio.volume = playerState.volume;
-            elements.audio.src = STREAM_CONFIG.url;
-            
-            // Inicializar Web Audio API (se activará con interacción)
-            document.addEventListener('click', initAudioContext, { once: true });
-            document.addEventListener('touchstart', initAudioContext, { once: true });
-            
-            // Cargar historial
-            loadHistory();
-            
-            // Configurar eventos
-            setupEventListeners();
-            
-            // Iniciar animación de progreso
-            updateProgress();
-            
-            // Fetch metadata inicial
-            await fetchMetadata();
-            
-            // Auto-fetch metadata cada X segundos
-            playerState.metadataInterval = setInterval(fetchMetadata, STREAM_CONFIG.metadataInterval);
-            
-            // Auto-play si está configurado (requiere interacción del usuario en la mayoría de navegadores)
-            if (STREAM_CONFIG.autoPlay) {
-                // Mostrar mensaje informativo
-                showToast('👆 Toca ▶️ para comenzar');
-            }
-            
-            console.log('✅ Reproductor moderno inicializado');
-        }
-
-        // Iniciar cuando el DOM esté listo
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initPlayer);
-        } else {
-            initPlayer();
-        }
-
-        // Cleanup al cerrar
-        window.addEventListener('beforeunload', () => {
-            if (playerState.animationId) cancelAnimationFrame(playerState.animationId);
-            if (playerState.metadataInterval) clearInterval(playerState.metadataInterval);
-            if (playerState.audioContext) playerState.audioContext.close();
         });
+
+        btnMute.addEventListener('click', () => {
+            if (isMuted || audioEl.volume > 0) {
+                audioEl.volume = 0;
+                volumeSlider.value = 0;
+                volumeIcon.className = 'fas fa-volume-mute';
+                isMuted = true;
+            } else {
+                audioEl.volume = 0.8;
+                volumeSlider.value = 80;
+                volumeIcon.className = 'fas fa-volume-up';
+                isMuted = false;
+            }
+        });
+
+        // Botones adicionales (simulados)
+        document.getElementById('btnPrev').addEventListener('click', () => {
+            // En radio en vivo, esto podría recargar el stream
+            audioEl.src = STREAM_URL;
+            if (isPlaying) audioEl.play();
+            showNotification('🔄 Stream reiniciado');
+        });
+
+        document.getElementById('btnNext').addEventListener('click', () => {
+            fetchMetadata(); // Forzar actualización de metadatos
+            showNotification('🔄 Actualizando información...');
+        });
+
+        // Notificaciones
+        function showNotification(msg) {
+            const n = document.createElement('div');
+            n.style.cssText = 'position:fixed;top:20px;right:20px;background:linear-gradient(135deg,#10b981,#059669);color:white;padding:12px 20px;border-radius:12px;font-size:0.8rem;font-weight:600;z-index:99999;animation:fadeInUp 0.3s ease;font-family:Poppins,sans-serif;';
+            n.textContent = msg;
+            document.body.appendChild(n);
+            setTimeout(() => { n.style.opacity='0'; n.style.transform='translateY(-10px)'; n.style.transition='all 0.3s ease'; setTimeout(()=>n.remove(),300); }, 2500);
+        }
+
+        // ==========================================
+        // INICIALIZACIÓN
+        // ==========================================
+        renderAll();
+        initProgramacion();
+        resetProgress();
+
+        // Navegación
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        menuToggle.addEventListener('click', () => { menuToggle.classList.toggle('active'); navMenu.classList.toggle('open'); });
+        document.querySelectorAll('.nav-menu a').forEach(l => l.addEventListener('click', () => {
+            menuToggle.classList.remove('active'); navMenu.classList.remove('open');
+            document.querySelectorAll('.nav-menu a').forEach(x => x.classList.remove('active'));
+            l.classList.add('active');
+        }));
+        window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+
+        // Reveal
+        const ro = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', function(e) {
+                e.preventDefault();
+                const t = document.querySelector(this.getAttribute('href'));
+                if (t) window.scrollTo({ top: t.offsetTop - document.querySelector('.header').offsetHeight - 20, behavior: 'smooth' });
+            });
+        });
+
+        // Auto-play (requiere interacción del usuario en la mayoría de navegadores)
+        // Intentamos auto-play al cargar, pero puede ser bloqueado
+        window.addEventListener('load', () => {
+            // Mostrar notificación para que el usuario inicie
+            setTimeout(() => {
+                showNotification('🎵 Haz clic en ▶️ para escuchar en vivo');
+            }, 2000);
+        });
+
+        // Cleanup
+        window.addEventListener('beforeunload', () => {
+            if (animationId) cancelAnimationFrame(animationId);
+            if (metadataInterval) clearInterval(metadataInterval);
+            if (audioContext) audioContext.close();
+        });
+
+        console.log('%c🎵 Radio Streaming - Reproductor Moderno', 'color:#8b5cf6;font-size:20px;font-weight:bold;');
     </script>
 </body>
 </html>
