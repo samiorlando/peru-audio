@@ -22,15 +22,16 @@
     ========================================== -->
     <header class="header" id="header">
         <nav class="nav-container">
-<a href="#" class="logo">
-    <div class="logo-icon">
-        <img src="ruta-de-tu-imagen/logo.png" alt="Logo Radio" class="logo-img">
-    </div>
-    <div class="logo-text">
-        <h1>TU RADIO</h1>
-        <span>Huayno Sureño 2026</span>
-    </div>
-</a>
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-broadcast-tower"></i>
+                </div>
+                <div class="logo-text">
+                    <!-- NOMBRE DE LA RADIO ACTUALIZADO -->
+                    <h1>RADIO IMPACTO</h1>
+                    <span>Siempre Contigo</span>
+                </div>
+            </a>
 
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#inicio" class="active"><i class="fas fa-home"></i> Inicio</a></li>
@@ -269,71 +270,58 @@
         </section>
 
         <!-- Programación -->
-<!-- Programación -->
-<section id="programacion" class="reveal">
-    <div class="section-header">
-        <span class="tag"><i class="fas fa-calendar"></i> Horarios</span>
-        <h2>Programación <span>Diaria</span></h2>
-        <p>Programación en tiempo real. El programa actual se marca automáticamente.</p>
-    </div>
-    <div class="programacion-list" id="programacionList">
-        
-        <!-- Programa 1 -->
-        <div class="programacion-item" data-start="06:00" data-end="09:00">
-            <div class="prog-time"><div class="hour">6:00</div><div class="period">AM</div></div>
-            <div class="prog-info">
-                <h4><i class="fas fa-sun" style="color: var(--secondary); margin-right:8px;"></i>Despertar Andino</h4>
-                <p>Con María López - Huaynos tradicionales para empezar el día</p>
+        <section id="programacion" class="reveal">
+            <div class="section-header">
+                <span class="tag"><i class="fas fa-calendar"></i> Horarios</span>
+                <h2>Programación <span>Diaria</span></h2>
+                <p>Consulta nuestra programación y no te pierdas tus programas favoritos.</p>
             </div>
-        </div>
-
-        <!-- Programa 2 -->
-        <div class="programacion-item" data-start="09:00" data-end="12:00">
-            <div class="prog-time"><div class="hour">9:00</div><div class="period">AM</div></div>
-            <div class="prog-info">
-                <h4><i class="fas fa-coffee" style="color: #f59e0b; margin-right:8px;"></i>Café con Charango</h4>
-                <p>Con Roberto Sánchez - Los clásicos del huayno puneño y cusqueño</p>
+            <div class="programacion-list">
+                <div class="programacion-item">
+                    <div class="prog-time"><div class="hour">6:00</div><div class="period">AM</div></div>
+                    <div class="prog-info">
+                        <h4><i class="fas fa-sun" style="color: var(--secondary); margin-right:8px;"></i>Buenos Días Impacto</h4>
+                        <p>Con María López - Música y noticias para empezar el día</p>
+                    </div>
+                </div>
+                <div class="programacion-item">
+                    <div class="prog-time"><div class="hour">9:00</div><div class="period">AM</div></div>
+                    <div class="prog-info">
+                        <h4><i class="fas fa-coffee" style="color: #f59e0b; margin-right:8px;"></i>Café Musical</h4>
+                        <p>Con Roberto Sánchez - Los mejores clásicos y novedades</p>
+                    </div>
+                </div>
+                <div class="programacion-item live">
+                    <div class="prog-time"><div class="hour">12:00</div><div class="period">PM</div></div>
+                    <div class="prog-info">
+                        <h4><i class="fas fa-fire" style="color: var(--danger); margin-right:8px;"></i>Mediodía Caliente</h4>
+                        <p>Con Carlos Mendoza - Lo más sonado del momento</p>
+                    </div>
+                    <span class="prog-live-badge"><i class="fas fa-circle"></i> AL AIRE</span>
+                </div>
+                <div class="programacion-item">
+                    <div class="prog-time"><div class="hour">3:00</div><div class="period">PM</div></div>
+                    <div class="prog-info">
+                        <h4><i class="fas fa-headphones" style="color: var(--primary-light); margin-right:8px;"></i>Tarde de Hits</h4>
+                        <p>Con Ana Torres - Los éxitos del momento y entrevistas</p>
+                    </div>
+                </div>
+                <div class="programacion-item">
+                    <div class="prog-time"><div class="hour">7:00</div><div class="period">PM</div></div>
+                    <div class="prog-info">
+                        <h4><i class="fas fa-moon" style="color: #818cf8; margin-right:8px;"></i>Noche de Clásicos</h4>
+                        <p>Con Roberto Sánchez - Música variada y relajada</p>
+                    </div>
+                </div>
+                <div class="programacion-item">
+                    <div class="prog-time"><div class="hour">10:00</div><div class="period">PM</div></div>
+                    <div class="prog-info">
+                        <h4><i class="fas fa-star" style="color: var(--accent); margin-right:8px;"></i>Electro Night</h4>
+                        <p>DJ Set en vivo - Electrónica y mezclas exclusivas</p>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <!-- Programa 3 -->
-        <div class="programacion-item" data-start="12:00" data-end="15:00">
-            <div class="prog-time"><div class="hour">12:00</div><div class="period">PM</div></div>
-            <div class="prog-info">
-                <h4><i class="fas fa-fire" style="color: var(--danger); margin-right:8px;"></i>Mediodía Huaynero</h4>
-                <p>Con Carlos Mendoza - Lo más caliente del huayno contemporáneo</p>
-            </div>
-        </div>
-
-        <!-- Programa 4 -->
-        <div class="programacion-item" data-start="15:00" data-end="18:00">
-            <div class="prog-time"><div class="hour">3:00</div><div class="period">PM</div></div>
-            <div class="prog-info">
-                <h4><i class="fas fa-headphones" style="color: var(--primary-light); margin-right:8px;"></i>Tarde de Recuerdos</h4>
-                <p>Con Ana Torres - Huaynos de ayer que nunca pasan de moda</p>
-            </div>
-        </div>
-
-        <!-- Programa 5 -->
-        <div class="programacion-item" data-start="18:00" data-end="22:00">
-            <div class="prog-time"><div class="hour">7:00</div><div class="period">PM</div></div>
-            <div class="prog-info">
-                <h4><i class="fas fa-moon" style="color: #818cf8; margin-right:8px;"></i>Noche de Serenata</h4>
-                <p>Con Roberto Sánchez - Huaynos románticos para el atardecer</p>
-            </div>
-        </div>
-
-        <!-- Programa 6 -->
-        <div class="programacion-item" data-start="22:00" data-end="06:00">
-            <div class="prog-time"><div class="hour">10:00</div><div class="period">PM</div></div>
-            <div class="prog-info">
-                <h4><i class="fas fa-star" style="color: var(--accent); margin-right:8px;"></i>Madrugada Andina</h4>
-                <p>Programa especial - Huayno instrumental y zampoñas</p>
-            </div>
-        </div>
-
-    </div>
-</section>
+        </section>
 
         <!-- Sliders / Galería -->
         <section id="sliders" class="reveal">

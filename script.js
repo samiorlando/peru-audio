@@ -1,5 +1,5 @@
 // ==========================================
-// CONFIGURACIÓN DEL STREAM
+// CONFIGURACIÓN DEL STREAM - CENTOVA CAST
 // ==========================================
 const STREAM_URL = 'https://sonic.dattassd.com/8132/stream';
 const METADATA_URL = 'https://sonic.dattassd.com/cp/get_info.php?p=8132';
@@ -14,14 +14,14 @@ const totalSlides = 5;
 let isPlaying = false;
 let audioElement = document.getElementById('audioPlayer');
 let currentTrack = { title: 'Esperando...', artist: 'Radio Huayno' };
-let previousTrack = { title: '', artist: '' };
+let lastTrackKey = '';
 let songHistory = [];
 let metadataInterval;
 let fetchTimeout;
 let lastListenerCount = 0;
 
 // ==========================================
-// SLIDER
+// SLIDER FUNCIONALIDAD
 // ==========================================
 const slides = document.querySelectorAll('.slide');
 const dots = document.querySelectorAll('.slider-dot');
@@ -50,15 +50,25 @@ function resetProgress() {
     const step = 50;
     progressInterval = setInterval(() => {
         elapsed += step;
-        progressBar.style.width = (elapsed / slideDuration * 100) + '%';
+        const percent = (elapsed / slideDuration) * 100;
+        progressBar.style.width = percent + '%';
         if (elapsed >= slideDuration) clearInterval(progressInterval);
     }, step);
     sliderInterval = setInterval(nextSlide, slideDuration);
 }
 
-dots.forEach(dot => dot.addEventListener('click', () => goToSlide(parseInt(dot.dataset.slide))));
-document.getElementById('nextSlide').addEventListener('click', () => { nextSlide(); clearInterval(sliderInterval); clearInterval(progressInterval); resetProgress(); });
-document.getElementById('prevSlide').addEventListener('click', () => { prevSlide(); clearInterval(sliderInterval); clearInterval(progressInterval); resetProgress(); });
+dots.forEach(dot => {
+    dot.addEventListener('click', () => goToSlide(parseInt(dot.dataset.slide)));
+});
+
+document.getElementById('nextSlide').addEventListener('click', () => {
+    nextSlide(); clearInterval(sliderInterval); clearInterval(progressInterval); resetProgress();
+});
+
+document.getElementById('prevSlide').addEventListener('click', () => {
+    prevSlide(); clearInterval(sliderInterval); clearInterval(progressInterval); resetProgress();
+});
+
 resetProgress();
 
 // ==========================================
@@ -66,7 +76,12 @@ resetProgress();
 // ==========================================
 const menuToggle = document.getElementById('menuToggle');
 const navMenu = document.getElementById('navMenu');
-menuToggle.addEventListener('click', () => { menuToggle.classList.toggle('active'); navMenu.classList.toggle('open'); });
+
+menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    navMenu.classList.toggle('open');
+});
+
 document.querySelectorAll('.nav-menu a').forEach(link => {
     link.addEventListener('click', () => {
         menuToggle.classList.remove('active');
@@ -75,10 +90,14 @@ document.querySelectorAll('.nav-menu a').forEach(link => {
         link.classList.add('active');
     });
 });
-window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+
+window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    header.classList.toggle('scrolled', window.scrollY > 50);
+});
 
 // ==========================================
-// REPRODUCTOR
+// REPRODUCTOR STREAMING
 // ==========================================
 const btnPlay = document.getElementById('btnPlay');
 const playIcon = document.getElementById('playIcon');
@@ -89,6 +108,8 @@ const btnMute = document.getElementById('btnMute');
 const trackTitle = document.getElementById('trackTitle');
 const trackArtist = document.getElementById('trackArtist');
 const listenerCountEl = document.getElementById('listenerCount');
+const currentSongEl = document.getElementById('currentSong');
+const currentArtistEl = document.getElementById('currentArtist');
 
 audioElement.volume = 0.8;
 
@@ -104,194 +125,117 @@ function togglePlay() {
             playIcon.className = 'fas fa-pause';
             playerCover.classList.add('spinning');
             isPlaying = true;
-            console.log('🎵 Stream conectado');
             startMetadataPolling();
         }).catch(err => {
-            console.log('❌ Error:', err);
+            console.log('Error al reproducir:', err);
             trackTitle.textContent = 'Error de conexión';
-            trackArtist.textContent = 'Verifica tu red';
+            trackArtist.textContent = 'Verifica tu conexión';
         });
     }
 }
+
 btnPlay.addEventListener('click', togglePlay);
 
-volumeSlider.addEventListener('input', e => {
-    const v = e.target.value / 100;
-    audioElement.volume = v;
-    volumeIcon.className = v === 0 ? 'fas fa-volume-mute' : v < 0.5 ? 'fas fa-volume-down' : 'fas fa-volume-up';
+volumeSlider.addEventListener('input', (e) => {
+    const vol = e.target.value / 100;
+    audioElement.volume = vol;
+    volumeIcon.className = vol === 0 ? 'fas fa-volume-mute' : vol < 0.5 ? 'fas fa-volume-down' : 'fas fa-volume-up';
 });
 
 btnMute.addEventListener('click', () => {
-    if (audioElement.volume > 0) { audioElement.volume = 0; volumeSlider.value = 0; volumeIcon.className = 'fas fa-volume-mute'; }
-    else { audioElement.volume = 0.8; volumeSlider.value = 80; volumeIcon.className = 'fas fa-volume-up'; }
+    if (audioElement.volume > 0) {
+        audioElement.volume = 0; volumeSlider.value = 0; volumeIcon.className = 'fas fa-volume-mute';
+    } else {
+        audioElement.volume = 0.8; volumeSlider.value = 80; volumeIcon.className = 'fas fa-volume-up';
+    }
 });
 
 // ==========================================
-// 📜 SISTEMA DE HISTORIAL - CORREGIDO Y ROBUSTO
+// 🎯 PARSEADOR DE HISTORIA CENTOVA CAST
 // ==========================================
-
-/**
- * Extrae la canción actual de cualquier formato de Centova Cast
- */
-function extractSong(data) {
-    if (!data) return null;
+function parseCurrentSongFromHistory(historyArray) {
+    if (!Array.isArray(historyArray)) return null;
     
-    console.log('🔍 Datos recibidos de la API:', JSON.stringify(data, null, 2));
-    
-    // 1️⃣ Intentar campo 'title' directo
-    if (data.title && data.title.trim()) {
-        let raw = data.title.trim();
-        // Limpiar números de pista
-        raw = raw.replace(/^\d{2,3}\.\s*/, '');
-        if (raw.includes(' - ')) {
-            const parts = raw.split(' - ');
-            return { artist: parts[0].trim(), title: parts.slice(1).join(' - ').trim() };
+    for (let entry of historyArray) {
+        if (!entry || typeof entry !== 'string') continue;
+        
+        // Limpiar formato "2.) 036. Artista - Título"
+        let cleaned = entry.replace(/^\d+\.\)\s*/, '').trim();
+        if (!cleaned || cleaned.length < 3) continue;
+        
+        // Remover números de pista como "036. "
+        cleaned = cleaned.replace(/^\d{2,3}\.\s*/, '').trim();
+        
+        if (cleaned.includes(' - ')) {
+            const parts = cleaned.split(' - ');
+            return { 
+                title: parts.pop().trim(), 
+                artist: parts.join(' - ').trim() 
+            };
         }
-        return { artist: data.artist || data.song_artist || '', title: raw };
+        return { title: cleaned, artist: '' };
     }
-    
-    // 2️⃣ Intentar campo 'songtitle'
-    if (data.songtitle && data.songtitle.trim()) {
-        let raw = data.songtitle.trim().replace(/^\d{2,3}\.\s*/, '');
-        if (raw.includes(' - ')) {
-            const parts = raw.split(' - ');
-            return { artist: parts[0].trim(), title: parts.slice(1).join(' - ').trim() };
-        }
-        return { artist: data.artist || '', title: raw };
-    }
-    
-    // 3️⃣ Intentar array 'history' (formato común de Centova)
-    if (Array.isArray(data.history)) {
-        for (let entry of data.history) {
-            if (!entry || typeof entry !== 'string') continue;
-            let cleaned = entry.replace(/^\d+\.\)\s*/, '').trim();
-            if (!cleaned || cleaned.length < 5) continue;
-            cleaned = cleaned.replace(/^\d{2,3}\.\s*/, '').trim();
-            if (cleaned.includes(' - ')) {
-                const parts = cleaned.split(' - ');
-                return { title: parts.pop().trim(), artist: parts.join(' - ').trim() };
-            }
-            return { title: cleaned, artist: '' };
-        }
-    }
-    
-    // 4️⃣ Intentar objeto 'currentsong'
-    if (data.currentsong) {
-        return {
-            title: data.currentsong.title || data.currentsong.name || '',
-            artist: data.currentsong.artist || data.currentsong.singer || ''
-        };
-    }
-    
-    // 5️⃣ Intentar 'now_playing'
-    if (data.now_playing) {
-        return {
-            title: data.now_playing.title || '',
-            artist: data.now_playing.artist || ''
-        };
-    }
-    
     return null;
 }
 
-/**
- * Actualiza el historial de reproducción
- */
-function updateHistory(title, artist) {
-    // Limpiar
-    const cleanTitle = (title || 'Desconocido').trim();
-    const cleanArtist = (artist || 'Radio Huayno').trim();
+// ==========================================
+// 📜 GESTIÓN DEL HISTORIAL
+// ==========================================
+function addToHistory(title, artist) {
+    if (!title || title === currentTrack.title) return;
     
-    // Verificar si cambió la canción
-    const currentKey = `${cleanArtist} - ${cleanTitle}`;
-    const previousKey = `${previousTrack.artist} - ${previousTrack.title}`;
+    const now = new Date();
+    songHistory.unshift({
+        title,
+        artist: artist || 'Radio Huayno',
+        time: 'Ahora',
+        timestamp: now.getTime()
+    });
     
-    if (currentKey === previousKey || !cleanTitle || cleanTitle === 'Desconocido') {
-        return; // No cambió, no hacer nada
-    }
-    
-    console.log('🔄 Cambio de canción detectado!');
-    console.log('  Anterior:', previousKey);
-    console.log('  Nueva:', currentKey);
-    
-    // Si hay una canción anterior, moverla al historial
-    if (previousTrack.title && previousTrack.title !== 'Esperando...') {
-        songHistory.unshift({
-            title: previousTrack.title,
-            artist: previousTrack.artist,
-            time: 'Hace un momento',
-            timestamp: Date.now()
-        });
-        
-        // Mantener máximo 10 canciones
-        if (songHistory.length > 10) songHistory.pop();
-        
-        console.log('📜 Agregado al historial:', previousTrack.title, '-', previousTrack.artist);
-    }
-    
-    // Actualizar canción actual
-    previousTrack = { title: cleanTitle, artist: cleanArtist };
-    currentTrack = { title: cleanTitle, artist: cleanArtist };
-    
-    // Actualizar UI del player
-    trackTitle.textContent = cleanTitle;
-    trackArtist.textContent = cleanArtist;
-    
-    // Actualizar historial visual
-    renderHistoryTimeline();
+    if (songHistory.length > 8) songHistory.pop();
+    updateHistoryTimes();
+    renderHistory();
+    console.log('📜 Historial actualizado:', title, '-', artist);
 }
 
-/**
- * Renderiza el timeline de historial en el HTML
- */
-function renderHistoryTimeline() {
+function updateHistoryTimes() {
+    songHistory.forEach((song, i) => {
+        if (i === 0) song.time = 'Ahora';
+        else song.time = `Hace ${i * 5} min`;
+    });
+}
+
+function renderHistory() {
     const timeline = document.getElementById('historyTimeline');
     if (!timeline) return;
     
-    let html = '';
-    
-    // Canción actual (siempre primero)
-    html += `
+    let html = `
         <div class="news-item current">
-            <div class="date">🔴 Reproduciendo ahora</div>
-            <h3><i class="fas fa-music"></i> ${currentTrack.title || 'Esperando...'}</h3>
-            <p>🎤 ${currentTrack.artist || 'Radio Huayno'}</p>
+            <div class="date">Reproduciendo ahora</div>
+            <h3><i class="fas fa-music"></i> <span id="currentSong">${currentTrack.title}</span></h3>
+            <p><span id="currentArtist">${currentTrack.artist}</span></p>
         </div>
     `;
     
-    // Canciones anteriores
     songHistory.forEach((song, i) => {
-        const timeLabel = i === 0 ? 'Hace un momento' : i === 1 ? 'Hace 5 min' : i === 2 ? 'Hace 10 min' : `Hace ${15 + (i-3)*5} min`;
+        if (i === 0) return; // Skip first, it's already in "current"
         html += `
             <div class="news-item">
-                <div class="date">${timeLabel}</div>
+                <div class="date">${song.time}</div>
                 <h3><i class="fas fa-music"></i> ${song.title}</h3>
-                <p>🎤 ${song.artist}</p>
+                <p>${song.artist ? '🎤 ' + song.artist : ''}</p>
             </div>
         `;
     });
     
-    // Si no hay historial, mostrar mensaje
-    if (songHistory.length === 0) {
-        html += `
-            <div class="news-item">
-                <div class="date">Esperando siguiente canción...</div>
-                <h3><i class="fas fa-clock"></i> El historial se actualizará cuando cambie la canción</h3>
-                <p>🎵 Conéctate al stream para ver las canciones reproducidas</p>
-            </div>
-        `;
-    }
-    
     timeline.innerHTML = html;
-    console.log('📜 Historial renderizado:', songHistory.length + 1, 'canciones');
 }
 
 // ==========================================
-// 🔄 POLLING DE METADATA
+// 🔄 POLLING DE METADATA & OYENTES
 // ==========================================
 function startMetadataPolling() {
-    console.log('🔄 Iniciando polling de metadata...');
-    fetchMetadata(); // Primera llamada inmediata
+    fetchMetadata();
     if (metadataInterval) clearInterval(metadataInterval);
     metadataInterval = setInterval(fetchMetadata, 5000); // Cada 5 segundos
 }
@@ -304,7 +248,7 @@ function stopMetadataPolling() {
 async function fetchMetadata() {
     if (!METADATA_URL || !isPlaying) return;
     
-    fetchTimeout = setTimeout(() => console.log('⏱️ Timeout'), 5000);
+    fetchTimeout = setTimeout(() => console.log('⏱️ Timeout meta'), 5000);
     
     try {
         const response = await fetch(METADATA_URL, {
@@ -324,50 +268,93 @@ async function fetchMetadata() {
             try { data = JSON.parse(text); } catch { data = {}; }
         }
         
-        // Extraer canción
-        const song = extractSong(data);
-        if (song) {
-            updateHistory(song.title, song.artist);
-            console.log('✅ Metadata:', song.artist, '-', song.title);
-        } else {
-            console.log('⚠️ No se pudo extraer la canción. Verifica la estructura de la API.');
+        // 🔍 Extraer canción actual del historial
+        const currentSong = parseCurrentSongFromHistory(data.history);
+        if (currentSong) {
+            const trackKey = `${currentSong.artist} - ${currentSong.title}`;
+            
+            // 🆕 Si cambió la canción, actualizar
+            if (trackKey !== lastTrackKey) {
+                // Guardar canción anterior en historial
+                if (lastTrackKey && currentTrack.title !== 'Esperando...') {
+                    addToHistory(currentTrack.title, currentTrack.artist);
+                }
+                
+                // Actualizar canción actual
+                currentTrack = { title: currentSong.title, artist: currentSong.artist };
+                lastTrackKey = trackKey;
+                
+                // Actualizar UI del player
+                trackTitle.textContent = currentSong.title;
+                trackArtist.textContent = currentSong.artist;
+                if (currentSongEl) currentSongEl.textContent = currentSong.title;
+                if (currentArtistEl) currentArtistEl.textContent = currentSong.artist;
+                
+                console.log('🎵 Cambio detectado:', currentSong.artist, '-', currentSong.title);
+            }
         }
         
-        // 👥 Oyentes
+        // 👥 Actualizar oyentes en tiempo real
         const listeners = parseInt(data.listeners || data.ulistener || 0);
-        if (listeners >= 0 && listenerCountEl) {
-            listenerCountEl.textContent = listeners.toLocaleString();
-            lastListenerCount = listeners;
-        }
+        if (listeners >= 0) updateListenerCountRealTime(listeners);
         
     } catch (error) {
-        console.log('❌ Error fetching metadata:', error.message);
+        console.log('⚠️ Error meta:', error.message);
     }
 }
 
+function updateListenerCountRealTime(newCount) {
+    if (!listenerCountEl) return;
+    const target = parseInt(newCount) || 0;
+    
+    if (lastListenerCount === 0) {
+        listenerCountEl.textContent = target.toLocaleString();
+        lastListenerCount = target;
+        return;
+    }
+    
+    const steps = 15;
+    let step = 0;
+    const inc = (target - lastListenerCount) / steps;
+    
+    const animate = () => {
+        step++;
+        listenerCountEl.textContent = Math.round(lastListenerCount + (inc * step)).toLocaleString();
+        if (step < steps) requestAnimationFrame(animate);
+        else {
+            listenerCountEl.textContent = target.toLocaleString();
+            lastListenerCount = target;
+        }
+    };
+    requestAnimationFrame(animate);
+}
+
 // ==========================================
-// 🎬 YOUTUBE
+// 🎬 VIDEOS YOUTUBE
 // ==========================================
-function openVideo(id) {
-    document.getElementById('youtubeFrame').src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+function openVideo(videoId) {
+    document.getElementById('youtubeFrame').src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
     document.getElementById('videoModal').classList.add('active');
     document.body.style.overflow = 'hidden';
 }
+
 function closeVideo() {
     document.getElementById('youtubeFrame').src = '';
     document.getElementById('videoModal').classList.remove('active');
     document.body.style.overflow = '';
 }
+
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideo(); });
 document.getElementById('videoModal').addEventListener('click', e => { if (e.target.id === 'videoModal') closeVideo(); });
 
 // ==========================================
-// 🎨 SCROLL & ANIMACIONES
+// 🎨 ANIMACIONES Y SCROLL
 // ==========================================
 const revealElements = document.querySelectorAll('.reveal');
-const revealObserver = new IntersectionObserver(entries => {
+const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
 revealElements.forEach(el => revealObserver.observe(el));
 
 document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -383,84 +370,12 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     console.log('%c🎙️ Radio Huayno Sureño 2026', 'color: #8b5cf6; font-size: 18px; font-weight: bold;');
-    console.log('%c📡 Stream configurado', 'color: #10b981;');
-    console.log('%c📜 Sistema de historial: HABILITADO', 'color: #f59e0b;');
-    console.log('%c💡 Haz clic en ▶️ para iniciar y ver el historial en acción', 'color: #94a3b8;');
-    renderHistoryTimeline(); // Render inicial
+    console.log('%c📡 Stream activo', 'color: #10b981;');
+    console.log('%c📜 Historial de reproducción: HABILITADO', 'color: #f59e0b;');
+    renderHistory();
 });
 
-window.addEventListener('beforeunload', () => { stopMetadataPolling(); if (audioElement) audioElement.pause(); });
-// ==========================================
-// 📅 PROGRAMACIÓN AUTO-ACTUALIZABLE
-// ==========================================
-
-/**
- * Convierte "HH:MM" (24h) a minutos desde medianoche
- */
-function timeToMinutes(timeStr) {
-    const [h, m] = timeStr.split(':').map(Number);
-    return h * 60 + (m || 0);
-}
-
-/**
- * Actualiza automáticamente la clase .live y el badge "AL AIRE"
- */
-function updateProgramacionAuto() {
-    const now = new Date();
-    const currentMinutes = now.getHours() * 60 + now.getMinutes();
-    const items = document.querySelectorAll('.programacion-item');
-    let liveFound = false;
-
-    items.forEach(item => {
-        const startStr = item.getAttribute('data-start');
-        const endStr = item.getAttribute('data-end');
-        if (!startStr || !endStr) return;
-
-        const startMin = timeToMinutes(startStr);
-        const endMin = timeToMinutes(endStr);
-
-        // Determinar si está en vivo (maneja cruce de medianoche)
-        let isLive = false;
-        if (endMin > startMin) {
-            isLive = currentMinutes >= startMin && currentMinutes < endMin;
-        } else {
-            // Programa que cruza medianoche (ej: 22:00 - 06:00)
-            isLive = currentMinutes >= startMin || currentMinutes < endMin;
-        }
-
-        if (isLive) {
-            item.classList.add('live');
-            liveFound = true;
-            
-            // Insertar/actualizar badge si no existe
-            let badge = item.querySelector('.prog-live-badge');
-            if (!badge) {
-                badge = document.createElement('span');
-                badge.className = 'prog-live-badge';
-                item.appendChild(badge);
-            }
-            badge.innerHTML = '<i class="fas fa-circle"></i> AL AIRE';
-            
-            // Scroll suave al programa en vivo (solo la primera vez que cambia)
-            if (!item.dataset.scrolled) {
-                item.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                item.dataset.scrolled = 'true';
-            }
-        } else {
-            item.classList.remove('live');
-            item.removeAttribute('data-scrolled');
-            const badge = item.querySelector('.prog-live-badge');
-            if (badge) badge.remove();
-        }
-    });
-
-    if (!liveFound) {
-        console.log('📡 Programación: Fuera de horario programado');
-    }
-}
-
-// Ejecutar al cargar y actualizar cada 60 segundos
-document.addEventListener('DOMContentLoaded', () => {
-    updateProgramacionAuto();
-    setInterval(updateProgramacionAuto, 60000); // Cada 1 minuto
+window.addEventListener('beforeunload', () => {
+    stopMetadataPolling();
+    if (audioElement) audioElement.pause();
 });
