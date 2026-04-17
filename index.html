@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio Impacto - En Vivo</title>
+    <meta name="description" content="Radio Impacto - Tu mejor opción musical en vivo. Música, noticias y entretenimiento.">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ==========================================
+         HEADER
+    ========================================== -->
+    <header class="header" id="header">
+        <nav class="nav-container">
+<a href="#" class="logo">
+    <div class="logo-icon">
+        <img src="ruta-de-tu-imagen/logo.png" alt="Logo Radio" class="logo-img">
+    </div>
+    <div class="logo-text">
+        <h1>TU RADIO</h1>
+        <span>Huayno Sureño 2026</span>
+    </div>
+</a>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#inicio" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="#locutores"><i class="fas fa-microphone-alt"></i> Locutores</a></li>
+                <li><a href="#noticias"><i class="fas fa-newspaper"></i> Noticias</a></li>
+                <li><a href="#sliders"><i class="fas fa-images"></i> Sliders</a></li>
+                <li><a href="#programacion"><i class="fas fa-calendar-alt"></i> Programación</a></li>
+                <li><a href="#videos"><i class="fas fa-video"></i> Videos</a></li>
+                <li><a href="#historial"><i class="fas fa-history"></i> Historial</a></li>
+            </ul>
+
+            <div style="display:flex; align-items:center; gap:15px;">
+                <div class="nav-live-badge">
+                    <i class="fas fa-circle"></i> EN VIVO
+                </div>
+                <div class="menu-toggle" id="menuToggle">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ==========================================
+         SLIDER - 5 IMÁGENES
+    ========================================== -->
+    <section class="slider-section" id="inicio">
+        <div class="slider-container" id="sliderContainer">
+
+            <!-- Slide 1 -->
+            <div class="slide active">
+                <img src="https://images.unsplash.com/photo-1526392060635-9d6019884377?w=1400&h=600&fit=crop" alt="Radio Impacto">
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <span class="slide-tag">🔥 La Mejor Música</span>
+                    <h2>Radio Impacto: Tu Energía</h2>
+                    <p>La mejor programación musical y entretenimiento las 24 horas del día.</p>
+                    <a class="slide-btn" onclick="togglePlay()"><i class="fas fa-play"></i> Escuchar Ahora</a>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1400&h=600&fit=crop" alt="Estudio">
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <span class="slide-tag">🎙️ En Vivo</span>
+                    <h2>Conectados Contigo</h2>
+                    <p>Transmisiones en vivo con la mejor interacción y contenido exclusivo.</p>
+                    <a href="#programacion" class="slide-btn"><i class="fas fa-calendar"></i> Ver Programación</a>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1400&h=600&fit=crop" alt="Música">
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <span class="slide-tag">🔥 Tendencias</span>
+                    <h2>Lo Más Nuevo</h2>
+                    <p>Mantente al día con los últimos éxitos y novedades musicales.</p>
+                    <a href="#noticias" class="slide-btn"><i class="fas fa-fire"></i> Ver Novedades</a>
+                </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=1400&h=600&fit=crop" alt="Entrevistas">
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <span class="slide-tag">🎤 Entrevistas</span>
+                    <h2>Contenido Exclusivo</h2>
+                    <p>Conoce de cerca a tus artistas favoritos con nuestras entrevistas.</p>
+                    <a href="#videos" class="slide-btn"><i class="fas fa-play-circle"></i> Ver Videos</a>
+                </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1400&h=600&fit=crop" alt="Comunidad">
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <span class="slide-tag">🌎 Comunidad</span>
+                    <h2>Únete a la Familia</h2>
+                    <p>Miles de oyentes ya disfrutan de Radio Impacto. ¡No te quedes fuera!</p>
+                    <a class="slide-btn" onclick="togglePlay()"><i class="fas fa-users"></i> Escúchanos Ya</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Controles del slider -->
+        <div class="slider-arrows">
+            <div class="slider-arrow" id="prevSlide"><i class="fas fa-chevron-left"></i></div>
+            <div class="slider-arrow" id="nextSlide"><i class="fas fa-chevron-right"></i></div>
+        </div>
+
+        <div class="slider-controls" id="sliderDots">
+            <div class="slider-dot active" data-slide="0"></div>
+            <div class="slider-dot" data-slide="1"></div>
+            <div class="slider-dot" data-slide="2"></div>
+            <div class="slider-dot" data-slide="3"></div>
+            <div class="slider-dot" data-slide="4"></div>
+        </div>
+
+        <div class="slider-progress" id="sliderProgress"></div>
+    </section>
+
+    <!-- ==========================================
+         CONTENIDO PRINCIPAL
+    ========================================== -->
+    <main class="main-content">
+
+        <!-- Noticias -->
+        <section id="noticias" class="reveal">
+            <div class="section-header">
+                <span class="tag"><i class="fas fa-bolt"></i> Últimas Noticias</span>
+                <h2>Noticias <span>Destacadas</span></h2>
+                <p>Mantente informado con las últimas novedades de la música y nuestra emisora.</p>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=400&fit=crop" alt="Noticia 1">
+                        <span class="card-tag">Música</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Nuevos Lanzamientos Musicales</h3>
+                        <p>Los mejores artistas presentan sus nuevas producciones. Escúchalos en exclusiva por Radio Impacto.</p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-clock"></i> Hace 2 horas</span>
+                            <span><i class="fas fa-eye"></i> 1.2K vistas</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&h=400&fit=crop" alt="Noticia 2">
+                        <span class="card-tag">Evento</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Gran Evento Musical 2026</h3>
+                        <p>Prepárate para el evento musical más grande del año. Transmisión en vivo por nuestra plataforma.</p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-clock"></i> Hace 5 horas</span>
+                            <span><i class="fas fa-eye"></i> 3.4K vistas</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=600&h=400&fit=crop" alt="Noticia 3">
+                        <span class="card-tag">Entrevista</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Entrevista Exclusiva</h3>
+                        <p>Nuestro locutor principal conversa con uno de los artistas más influyentes del momento.</p>
+                        <div class="card-meta">
+                            <span><i class="fas fa-clock"></i> Hace 1 día</span>
+                            <span><i class="fas fa-eye"></i> 5.1K vistas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Locutores -->
+        <section id="locutores" class="reveal">
+            <div class="section-header">
+                <span class="tag"><i class="fas fa-microphone"></i> Nuestro Equipo</span>
+                <h2>Conoce a Nuestros <span>Locutores</span></h2>
+                <p>Profesionales apasionados que hacen posible la magia de nuestra radio.</p>
+            </div>
+            <div class="locutores-grid">
+                
+                <!-- Locutor 1 -->
+                <div class="locutor-card">
+                    <div class="locutor-avatar">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="Locutor 1" onerror="this.parentElement.innerHTML='<i class=\'fas fa-user\'></i>'">
+                    </div>
+                    <h3>Carlos Mendoza</h3>
+                    <div class="role">Director & Locutor Principal</div>
+                    <p>15 años de experiencia en radio. Especialista en programación musical de calidad.</p>
+                    <div class="locutor-socials">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <!-- Locutor 2 -->
+                <div class="locutor-card">
+                    <div class="locutor-avatar">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face" alt="Locutor 2" onerror="this.parentElement.innerHTML='<i class=\'fas fa-user\'></i>'">
+                    </div>
+                    <h3>María López</h3>
+                    <div class="role">Locutora & Presentadora</div>
+                    <p>Voz icónica de la mañana. Experta en tendencias musicales y entretenimiento.</p>
+                    <div class="locutor-socials">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <!-- Locutor 3 -->
+                <div class="locutor-card">
+                    <div class="locutor-avatar">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face" alt="Locutor 3" onerror="this.parentElement.innerHTML='<i class=\'fas fa-user\'></i>'">
+                    </div>
+                    <h3>Roberto Sánchez</h3>
+                    <div class="role">DJ & Productor Musical</div>
+                    <p>Productor especializado en mezclas con más de 10 años de experiencia.</p>
+                    <div class="locutor-socials">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <!-- Locutor 4 -->
+                <div class="locutor-card">
+                    <div class="locutor-avatar">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face" alt="Locutor 4" onerror="this.parentElement.innerHTML='<i class=\'fas fa-user\'></i>'">
+                    </div>
+                    <h3>Ana Torres</h3>
+                    <div class="role">Locutora & Periodista</div>
+                    <p>Periodista especializada en cultura y cobertura de eventos en vivo.</p>
+                    <div class="locutor-socials">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Programación -->
+<!-- Programación -->
+<section id="programacion" class="reveal">
+    <div class="section-header">
+        <span class="tag"><i class="fas fa-calendar"></i> Horarios</span>
+        <h2>Programación <span>Diaria</span></h2>
+        <p>Programación en tiempo real. El programa actual se marca automáticamente.</p>
+    </div>
+    <div class="programacion-list" id="programacionList">
+        
+        <!-- Programa 1 -->
+        <div class="programacion-item" data-start="06:00" data-end="09:00">
+            <div class="prog-time"><div class="hour">6:00</div><div class="period">AM</div></div>
+            <div class="prog-info">
+                <h4><i class="fas fa-sun" style="color: var(--secondary); margin-right:8px;"></i>Despertar Andino</h4>
+                <p>Con María López - Huaynos tradicionales para empezar el día</p>
+            </div>
+        </div>
+
+        <!-- Programa 2 -->
+        <div class="programacion-item" data-start="09:00" data-end="12:00">
+            <div class="prog-time"><div class="hour">9:00</div><div class="period">AM</div></div>
+            <div class="prog-info">
+                <h4><i class="fas fa-coffee" style="color: #f59e0b; margin-right:8px;"></i>Café con Charango</h4>
+                <p>Con Roberto Sánchez - Los clásicos del huayno puneño y cusqueño</p>
+            </div>
+        </div>
+
+        <!-- Programa 3 -->
+        <div class="programacion-item" data-start="12:00" data-end="15:00">
+            <div class="prog-time"><div class="hour">12:00</div><div class="period">PM</div></div>
+            <div class="prog-info">
+                <h4><i class="fas fa-fire" style="color: var(--danger); margin-right:8px;"></i>Mediodía Huaynero</h4>
+                <p>Con Carlos Mendoza - Lo más caliente del huayno contemporáneo</p>
+            </div>
+        </div>
+
+        <!-- Programa 4 -->
+        <div class="programacion-item" data-start="15:00" data-end="18:00">
+            <div class="prog-time"><div class="hour">3:00</div><div class="period">PM</div></div>
+            <div class="prog-info">
+                <h4><i class="fas fa-headphones" style="color: var(--primary-light); margin-right:8px;"></i>Tarde de Recuerdos</h4>
+                <p>Con Ana Torres - Huaynos de ayer que nunca pasan de moda</p>
+            </div>
+        </div>
+
+        <!-- Programa 5 -->
+        <div class="programacion-item" data-start="18:00" data-end="22:00">
+            <div class="prog-time"><div class="hour">7:00</div><div class="period">PM</div></div>
+            <div class="prog-info">
+                <h4><i class="fas fa-moon" style="color: #818cf8; margin-right:8px;"></i>Noche de Serenata</h4>
+                <p>Con Roberto Sánchez - Huaynos románticos para el atardecer</p>
+            </div>
+        </div>
+
+        <!-- Programa 6 -->
+        <div class="programacion-item" data-start="22:00" data-end="06:00">
+            <div class="prog-time"><div class="hour">10:00</div><div class="period">PM</div></div>
+            <div class="prog-info">
+                <h4><i class="fas fa-star" style="color: var(--accent); margin-right:8px;"></i>Madrugada Andina</h4>
+                <p>Programa especial - Huayno instrumental y zampoñas</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+        <!-- Sliders / Galería -->
+        <section id="sliders" class="reveal">
+            <div class="section-header">
+                <span class="tag"><i class="fas fa-images"></i> Galería</span>
+                <h2>Galería <span>Destacada</span></h2>
+                <p>Los mejores momentos de nuestra emisora.</p>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=400&fit=crop" alt="Estudio">
+                        <span class="card-tag">Estudio</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Nuestro Estudio Principal</h3>
+                        <p>Equipamiento profesional para transmitir la mejor calidad de sonido.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&h=400&fit=crop" alt="Eventos">
+                        <span class="card-tag">Eventos</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Eventos en Vivo</h3>
+                        <p>Cobertura completa de los mejores eventos y presentaciones.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=600&h=400&fit=crop" alt="Behind">
+                        <span class="card-tag">Detrás</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>Detrás de Cámaras</h3>
+                        <p>Descubre cómo producimos tus programas favoritos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Videos de YouTube -->
+        <section id="videos" class="reveal">
+            <div class="section-header">
+                <span class="tag"><i class="fas fa-play-circle"></i> Multimedia</span>
+                <h2>Videos <span>Destacados</span></h2>
+                <p>Los mejores videos de nuestras transmisiones y contenido exclusivo.</p>
+            </div>
+            <div class="videos-grid">
+                
+                <!-- Video 1 -->
+                <div class="video-card" onclick="openVideo('dQw4w9WgXcQ')">
+                    <div class="video-thumbnail">
+                        <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg" alt="Video 1" onerror="this.src='https://via.placeholder.com/600x340/1a1a2e/8b5cf6?text=Video'">
+                        <div class="play-btn"><i class="fas fa-play"></i></div>
+                        <span class="video-duration">12:34</span>
+                    </div>
+                    <div class="video-info">
+                        <h3>Entrevista Exclusiva</h3>
+                        <p><i class="fas fa-eye"></i> 15.2K vistas &nbsp;•&nbsp; Hace 3 días</p>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-card" onclick="openVideo('9bZkp7q19f0')">
+                    <div class="video-thumbnail">
+                        <img src="https://img.youtube.com/vi/9bZkp7q19f0/mqdefault.jpg" alt="Video 2" onerror="this.src='https://via.placeholder.com/600x340/1a1a2e/8b5cf6?text=Video'">
+                        <div class="play-btn"><i class="fas fa-play"></i></div>
+                        <span class="video-duration">25:10</span>
+                    </div>
+                    <div class="video-info">
+                        <h3>Live Session Especial</h3>
+                        <p><i class="fas fa-eye"></i> 8.7K vistas &nbsp;•&nbsp; Hace 1 semana</p>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="video-card" onclick="openVideo('kJQP7kiw5Fk')">
+                    <div class="video-thumbnail">
+                        <img src="https://img.youtube.com/vi/kJQP7kiw5Fk/mqdefault.jpg" alt="Video 3" onerror="this.src='https://via.placeholder.com/600x340/1a1a2e/8b5cf6?text=Video'">
+                        <div class="play-btn"><i class="fas fa-play"></i></div>
+                        <span class="video-duration">18:45</span>
+                    </div>
+                    <div class="video-info">
+                        <h3>Resumen del Evento 2026</h3>
+                        <p><i class="fas fa-eye"></i> 22.1K vistas &nbsp;•&nbsp; Hace 2 semanas</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Historial de Reproducción -->
+        <section id="historial" class="reveal">
+            <div class="section-header">
+                <span class="tag"><i class="fas fa-history"></i> Registro</span>
+                <h2>Historial <span>de Reproducción</span></h2>
+                <p>Últimas canciones reproducidas en Radio Impacto.</p>
+            </div>
+            <div class="news-timeline" id="historyTimeline">
+                <div class="news-item current">
+                    <div class="date">Ahora</div>
+                    <h3><i class="fas fa-music"></i> <span id="currentSong">Cargando...</span></h3>
+                    <p><span id="currentArtist">Conectando con el stream...</span></p>
+                </div>
+                <div class="news-item">
+                    <div class="date">Hace 5 min</div>
+                    <h3><i class="fas fa-music"></i> Canción Anterior 1</h3>
+                    <p>🎤 Artista Anterior</p>
+                </div>
+                <div class="news-item">
+                    <div class="date">Hace 10 min</div>
+                    <h3><i class="fas fa-music"></i> Canción Anterior 2</h3>
+                    <p>🎤 Artista Anterior</p>
+                </div>
+                <div class="news-item">
+                    <div class="date">Hace 15 min</div>
+                    <h3><i class="fas fa-music"></i> Canción Anterior 3</h3>
+                    <p>🎤 Artista Anterior</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================
+         FOOTER
+    ========================================== -->
+    <footer class="footer">
+        <div class="footer-main">
+            <div class="footer-brand">
+                <!-- FOOTER NAME ACTUALIZADO -->
+                <h3>🎙️ RADIO IMPACTO</h3>
+                <p>Tu emisora favorita transmitiendo las 24 horas del día con la mejor música, noticias y entretenimiento. Conectamos contigo a través del sonido.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Navegación</h4>
+                <ul>
+                    <li><a href="#inicio"><i class="fas fa-chevron-right"></i> Inicio</a></li>
+                    <li><a href="#locutores"><i class="fas fa-chevron-right"></i> Locutores</a></li>
+                    <li><a href="#noticias"><i class="fas fa-chevron-right"></i> Noticias</a></li>
+                    <li><a href="#programacion"><i class="fas fa-chevron-right"></i> Programación</a></li>
+                    <li><a href="#videos"><i class="fas fa-chevron-right"></i> Videos</a></li>
+                    <li><a href="#historial"><i class="fas fa-chevron-right"></i> Historial</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Términos de Uso</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Política de Privacidad</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Cookies</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contacto</h4>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div class="info">
+                        <span>Dirección</span>
+                        <p>Ciudad, País</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div class="info">
+                        <span>Teléfono</span>
+                        <a href="tel:+1234567890">+1 (234) 567-890</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div class="info">
+                        <span>Email</span>
+                        <a href="mailto:info@radioimpacto.com">info@radioimpacto.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <!-- COPYRIGHT ACTUALIZADO -->
+            <p>&copy; 2026 <a href="#">Radio Impacto</a>. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         REPRODUCTOR STREAMING FLOTANTE
+    ========================================== -->
+    <div class="streaming-player" id="streamingPlayer">
+        <div class="player-progress-bar">
+            <div class="progress-fill" id="playerProgressFill"></div>
+        </div>
+        <div class="player-container">
+            <div class="player-track-info">
+                <div class="player-cover" id="playerCover">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="player-text">
+                    <div class="track-title" id="trackTitle">Conectando...</div>
+                    <div class="track-artist" id="trackArtist">Radio Impacto</div>
+                    <div class="live-indicator">
+                        <span class="dot"></span>
+                        EN VIVO
+                    </div>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button id="btnPrev" title="Anterior"><i class="fas fa-step-backward"></i></button>
+                <button class="btn-play" id="btnPlay" title="Reproducir / Pausar">
+                    <i class="fas fa-play" id="playIcon"></i>
+                </button>
+                <button id="btnNext" title="Siguiente"><i class="fas fa-step-forward"></i></button>
+                <button id="btnShuffle" title="Aleatorio"><i class="fas fa-random"></i></button>
+                <button id="btnRepeat" title="Repetir"><i class="fas fa-redo"></i></button>
+            </div>
+            <div class="player-extra">
+                <div class="player-listeners">
+                    <i class="fas fa-users"></i>
+                    <span id="listenerCount">0</span> oyentes
+                </div>
+                <div class="volume-control">
+                    <button id="btnMute" title="Silenciar"><i class="fas fa-volume-up" id="volumeIcon"></i></button>
+                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="80">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         MODAL PARA VIDEOS DE YOUTUBE
+    ========================================== -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-content">
+            <span class="video-modal-close" onclick="closeVideo()">&times;</span>
+            <iframe id="youtubeFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         AUDIO ELEMENT
+    ========================================== -->
+    <audio id="audioPlayer" preload="none" crossorigin="anonymous">
+        <source src="https://sonic.dattassd.com/8132/stream" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- ==========================================
+         JAVASCRIPT EXTERNO
+    ========================================== -->
+    <script src="script.js"></script>
+</body>
+</html>
